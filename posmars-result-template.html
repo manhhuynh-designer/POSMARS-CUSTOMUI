@@ -1,0 +1,223 @@
+<style>
+  /* --- BASE & WRAPPER --- */
+  .posmars-result-wrapper {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    padding: 2rem 1rem;
+    box-sizing: border-box;
+    background: transparent; 
+    position: relative;
+    z-index: 10;
+  }
+  
+  /* --- MAIN PANEL --- */
+  .posmars-result-panel {
+    width: 100%;
+    max-width: 420px;
+    background: {{panel_background}};
+    border-radius: 24px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    animation: fadeUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+    position: relative;
+    overflow: visible; 
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px) scale(0.98); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  /* --- BRANDING HEADER --- */
+  .result-top-bar {
+    padding: 2rem 2rem 1rem 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .result-logo {
+    width: 145px;
+    max-height: 65px; 
+    object-fit: contain;
+  }
+
+  /* --- BANNER --- */
+  .result-banner {
+    width: 100%; 
+    height: auto;
+    display: block;
+    margin-bottom: 0; 
+  }
+
+  /* --- WHITE CONTENT BOX --- */
+  .result-content-box {
+    background: #ffffff;
+    margin: 0; 
+    padding: 2rem;
+    border-radius: 0 0 24px 24px; 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    z-index: 3;
+    box-sizing: border-box;
+  }
+
+  /* --- TYPOGRAPHY --- */
+  .result-title {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.4rem;
+    font-weight: 800;
+    text-align: center;
+    color: #0f172a; 
+    text-transform: uppercase;
+  }
+
+  .result-desc {
+    margin: 0 0 1.5rem 0;
+    font-size: 0.95rem;
+    color: #64748b; 
+    text-align: center;
+    line-height: 1.5;
+  }
+
+  /* --- VOUCHER CARD --- */
+  .voucher-card {
+    width: 100%;
+    background: #f8fafc;
+    border: 2px dashed #cbd5e1;
+    border-radius: 16px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .voucher-label { font-size: 0.75rem; font-weight: 700; color: {{primary_color}}; text-transform: uppercase; }
+  .voucher-code { font-size: 1.5rem; font-weight: 900; color: #0f172a; font-family: monospace; }
+  
+  .copy-btn {
+    padding: 0.6rem 1.5rem;
+    background: {{primary_color}};
+    color: #ffffff;
+    font-size: 0.8rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    border-radius: 99px;
+    border: none;
+    cursor: pointer;
+    margin-top: 0.5rem;
+    transition: all 0.3s ease;
+  }
+
+  .copy-btn:hover { transform: scale(1.05); filter: brightness(1.1); }
+  .copy-btn:active { transform: scale(0.95); }
+
+  /* --- ACTIONS --- */
+  .action-btn {
+    width: 100%;
+    padding: 1rem;
+    background: #0f172a;
+    color: #ffffff;
+    font-weight: 800;
+    border-radius: 99px;
+    border: none;
+    cursor: pointer;
+    margin-bottom: 0.75rem;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+  }
+  
+  .share-btn { 
+    background: {{primary_color}}; 
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0% { box-shadow: 0 0 0 0 {{primary_color}}66; }
+    70% { box-shadow: 0 0 0 10px transparent; }
+    100% { box-shadow: 0 0 0 0 transparent; }
+  }
+
+  .video-btn {
+    background: #f1f5f9;
+    color: #475569;
+    border: 1px solid #e2e8f0;
+  }
+
+  .restart-link {
+    margin-top: 1rem; 
+    font-size: 0.75rem; 
+    color: #94a3b8; 
+    text-transform: uppercase; 
+    text-decoration: underline;
+    cursor: pointer;
+  }
+
+  /* --- FLOATING USPS --- */
+  .floating-usps-container {
+    position: absolute;
+    inset: 0; 
+    pointer-events: none; 
+    z-index: 4; 
+  }
+
+  .usp-item {
+    position: absolute;
+    height: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 8px 12px rgba(0,0,0,0.08)); 
+    animation: float 6s ease-in-out infinite;
+  }
+
+  .usp-1 { width: 55px; top: 5%; left: -25px; }
+  .usp-2 { width: 60px; top: 12%; right: -25px; }
+  .usp-3 { width: 50px; top: 20%; right: -15px; }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-6px) rotate(3deg); }
+  }
+</style>
+
+<div class="posmars-result-wrapper">
+  <div class="posmars-result-panel" style="background: {{panel_background}};">
+    
+    <div class="floating-usps-container">
+      <img src="{{extra_asset_usp1}}" class="usp-item usp-1" onerror="this.style.display='none';" />
+      <img src="{{extra_asset_usp2}}" class="usp-item usp-2" onerror="this.style.display='none';" />
+      <img src="{{extra_asset_usp3}}" class="usp-item usp-3" onerror="this.style.display='none';" />
+    </div>
+
+    <div class="result-top-bar">
+      <img src="{{logo_url}}" alt="Logo" class="result-logo" onerror="this.style.display='none';" />
+    </div>
+    
+    <img src="{{extra_asset_banner}}" alt="Banner" class="result-banner" onerror="this.style.display='none';" />
+
+    <div class="result-content-box">
+      <h1 class="result-title">{{result_title}}</h1>
+      <p class="result-desc">{{result_message}}</p>
+
+      
+
+      <button class="action-btn share-btn" data-action="share">Chia sẻ ngay</button>
+      <button class="action-btn video-btn" data-action="play-video">Xem lại video</button>
+      <button class="action-btn" style="background:transparent; color:#64748b; border: 1px solid #e2e8f0;" data-action="download">Tải ảnh/video</button>
+      
+      <a class="restart-link" data-action="restart">Chơi lại</a>
+    </div>
+  </div>
+</div>
