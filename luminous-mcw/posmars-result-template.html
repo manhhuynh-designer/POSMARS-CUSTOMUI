@@ -353,7 +353,7 @@
       <button class="action-btn share-btn" data-action="share">Chia sẻ ngay</button>
       <!-- Thumbnail Video -->
       <div class="video-thumbnail-container" data-action="play-video" onclick="openVideoModal()">
-        <video class="video-thumbnail" src="{{video_url}}#t=0.1" preload="metadata" muted playsinline onerror="this.closest('.video-thumbnail-container').style.display='none';"></video>
+        <video class="video-thumbnail" src="{{video_url}}#t=0.1" preload="metadata" muted playsinline></video>
         <div class="video-play-overlay">
           <div class="play-icon-wrapper">
             <svg class="play-icon" viewBox="0 0 24 24">
@@ -398,15 +398,5 @@
     }
   }
 
-  // Tự động ẩn hoàn toàn khung Video Thumbnail nếu không có video_url từ POSMARS Admin
-  document.addEventListener("DOMContentLoaded", function() {
-    const videoUrl = "{{video_url}}".trim();
-    // Kiểm tra nếu biến rỗng hoặc chưa được render (giữ nguyên định dạng placeholder {{...}})
-    if (!videoUrl || videoUrl === "" || videoUrl.startsWith("{{" + "video_url")) {
-      const container = document.querySelector('.video-thumbnail-container');
-      if (container) {
-        container.style.display = 'none';
-      }
-    }
-  });
+
 </script>
