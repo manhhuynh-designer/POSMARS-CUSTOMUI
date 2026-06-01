@@ -1,0 +1,297 @@
+<style>
+  /* --- BASE & WRAPPER --- */
+  .posmars-intro-wrapper {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    min-height: 100%;
+    padding: 2rem 1rem;
+    box-sizing: border-box;
+    /* Wrapper ngoài cùng phải là trong suốt để Intro overlay đè lên camera */
+    background: transparent; 
+    position: relative;
+    z-index: 10;
+  }
+  
+  /* --- MAIN PANEL (GLASSMORPHISM) --- */
+  .posmars-intro-panel {
+    width: 100%;
+    max-width: 420px;
+    
+    /* Nền được gán trực tiếp qua inline style dưới HTML theo yêu cầu hệ thống */
+
+    border-radius: 24px;
+    /* Tăng cường hiệu ứng Glassmorphism: Thêm inset shadow để viền kính sáng và sâu hơn */
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25), 
+                inset 0 0 20px rgba(255, 255, 255, 0.5),
+                0 0 30px -10px {{primary_color}}40;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    /* Làm viền rõ nét hơn */
+    border: 2px solid rgba(255, 255, 255, 0.7);
+    display: flex;
+    flex-direction: column;
+    /* Bỏ padding bottom để khối trắng bên trong áp sát đáy */
+    padding: 2.5rem 2rem 0 2rem;
+    animation: fadeUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+    position: relative;
+    /* Cho phép floating USP tràn ra ngoài */
+    overflow: visible; 
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px) scale(0.98); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  /* --- BRANDING HEADER --- */
+  .intro-logo {
+    width: 100%;
+    max-width: 180px; 
+    height: auto;
+    max-height: 80px; 
+    object-fit: contain;
+    margin: 0 auto 1.25rem auto; 
+    display: block;
+    position: relative;
+    z-index: 3;
+  }
+
+  /* --- BANNER --- */
+  .intro-banner {
+    /* Tràn viền bằng margin âm, bù trừ cho padding: 2rem của panel */
+    width: calc(100% + 4rem); 
+    max-width: none;
+    /* Gắn chặt với bottom bằng margin-bottom: 0 */
+    margin: 0 -2rem 0 -2rem; 
+    height: auto;
+    display: block;
+    border-radius: 0; /* Không bo góc */
+    position: relative;
+    z-index: 3;
+  }
+
+  /* --- BỘ CỤC NỘI DUNG (KHỐI TRẮNG) --- */
+  .intro-content-box {
+    background: #ffffff;
+    width: calc(100% + 4rem);
+    margin: 0 -2rem 0 -2rem; 
+    padding: 2rem 2rem 2.5rem 2rem;
+    /* Bo góc dưới bằng với panel trừ đi 2px của border để khớp hoàn toàn */
+    border-radius: 0 0 22px 22px; 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    z-index: 3;
+    box-sizing: border-box;
+  }
+
+  /* --- TYPOGRAPHY --- */
+  .intro-title {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.4rem;
+    font-weight: 800;
+    text-align: center;
+    color: {{text_color}}; 
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+  }
+
+  .intro-title:empty {
+    display: none;
+  }
+
+  .intro-desc {
+    margin: 0 0 1.75rem 0;
+    font-size: 0.95rem;
+    color: {{text_color}}; 
+    opacity: 0.75;
+    text-align: center;
+    line-height: 1.5;
+  }
+
+  /* --- ACTION BUTTON --- */
+  .start-btn {
+    position: relative;
+    width: 100%;
+    padding: 1.15rem;
+    background: {{primary_color}}; 
+    color: #ffffff; 
+    font-size: 1rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border: none;
+    border-radius: 99px; /* Dạng Pill */
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    box-shadow: 0 8px 15px -5px {{primary_color}}80;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: hidden;
+  }
+
+  .start-btn::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transform: translateX(-100%);
+    transition: transform 0.6s ease;
+  }
+
+  .start-btn:hover:not([data-loading="true"]) {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 20px -5px {{primary_color}}aa;
+  }
+
+  .start-btn:hover:not([data-loading="true"])::after {
+    transform: translateX(100%);
+  }
+
+  .start-btn:active:not([data-loading="true"]) {
+    transform: translateY(1px);
+    box-shadow: 0 4px 10px -5px {{primary_color}}80;
+  }
+
+  /* --- LOADING STATE --- */
+  .start-btn[data-loading="true"] {
+    background: {{text_color}}15; 
+    color: {{text_color}}; 
+    opacity: 0.6;
+    box-shadow: none;
+    cursor: not-allowed;
+    border: 1px solid {{text_color}}20;
+  }
+
+  .btn-spinner {
+    display: none;
+    width: 20px;
+    height: 20px;
+    border: 3px solid {{text_color}}20;
+    border-top-color: {{primary_color}}; 
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+
+  .btn-arrow {
+    display: block;
+  }
+
+  .start-btn[data-loading="true"] .btn-spinner { display: block; }
+  .start-btn[data-loading="true"] .btn-arrow { display: none; }
+
+  /* --- FLOATING USPS --- */
+  .floating-usps-container {
+    position: absolute;
+    inset: 0; 
+    pointer-events: none; 
+    z-index: 4; 
+  }
+
+  .usp-item {
+    position: absolute;
+    height: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 8px 12px rgba(0,0,0,0.1)); 
+    animation: float 6s ease-in-out infinite;
+  }
+
+  /* Điều chỉnh vị trí tất cả USP gom lên khu vực Banner/Logo */
+  .usp-1 {
+    width: 55px;
+    top: 8%;
+    left: -25px; 
+    animation-delay: 0s;
+  }
+
+  .usp-2 {
+    width: 60px;
+    top: 25%;
+    right: -25px; 
+    animation-delay: -2s;
+  }
+
+  .usp-3 {
+    width: 50px;
+    top: 45%;
+    right: -15px;
+    animation-delay: -4s;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-6px) rotate(3deg); }
+  }
+
+  /* Responsive an toàn cho màn hình di động nhỏ */
+  @media (max-width: 480px) {
+    .posmars-intro-panel { 
+      padding: 2rem 1.5rem 0 1.5rem;
+      margin: 0 0.5rem; 
+    }
+    .intro-banner {
+      width: calc(100% + 3rem);
+      margin: 0 -1.5rem 0 -1.5rem;
+    }
+    .intro-content-box {
+      width: calc(100% + 3rem);
+      margin: 0 -1.5rem 0 -1.5rem;
+      padding: 1.75rem 1.5rem 2rem 1.5rem;
+    }
+    .usp-1 { width: 45px; left: -15px; top: 6%; }
+    .usp-2 { width: 45px; right: -15px; top: 22%; }
+    .usp-3 { width: 40px; right: -5px; top: 40%; }
+  }
+</style>
+
+<div class="posmars-intro-wrapper">
+  <!-- Gán trực tiếp panel_background vào inline style -->
+  <div class="posmars-intro-panel" style="background: {{panel_background}};">
+    
+    <!-- Floating USPs -->
+    <div class="floating-usps-container">
+      <img src="{{extra_asset_usp1}}" class="usp-item usp-1" onerror="this.style.display='none';" />
+      <img src="{{extra_asset_usp2}}" class="usp-item usp-2" onerror="this.style.display='none';" />
+      <img src="{{extra_asset_usp3}}" class="usp-item usp-3" onerror="this.style.display='none';" />
+    </div>
+
+    <!-- Header Logo -->
+    <img src="{{logo_url}}" alt="Brand Logo" class="intro-logo" onerror="this.style.display='none';" />
+
+    <!-- Banner -->
+    <img src="{{banner_url}}" alt="Intro Banner" class="intro-banner" onerror="this.style.display='none';" />
+
+    <!-- Box Nội Dung Trắng (Gắn sát banner) -->
+    <div class="intro-content-box">
+      <!-- Tiêu đề & Mô tả -->
+      <h1 class="intro-title">{{title}}</h1>
+      <p class="intro-desc">{{description}}</p>
+
+      <!-- Nút Bắt đầu -->
+      <button 
+        class="start-btn" 
+        data-action="start" 
+        data-loading="{{is_camera_loading}}"
+      >
+        <div class="btn-spinner"></div>
+        <span>{{camera_loading_status}}</span>
+        <svg class="btn-arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M5 12h14"></path>
+          <path d="m12 5 7 7-7 7"></path>
+        </svg>
+      </button>
+    </div>
+
+  </div>
+</div>
