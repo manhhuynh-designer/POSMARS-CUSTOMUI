@@ -1,0 +1,404 @@
+<style>
+  /* --- BASE & WRAPPER --- */
+  .posmars-lead-wrapper {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    min-height: 100%;
+    padding: 2rem 1rem;
+    box-sizing: border-box;
+    background: linear-gradient(135deg, rgba(255, 228, 230, 0.8), rgba(254, 205, 211, 0.8)); 
+    background-image: url('{{bg_url}}');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    color: {{text_color}};
+    position: relative;
+    z-index: 10;
+  }
+
+  /* --- MAIN DIALOG PANEL --- */
+  .posmars-lead-panel {
+    width: 100%;
+    max-width: 420px;
+    background: rgba(247, 223, 240, 0.65); /* Đổi sang nền trong suốt để làm hiệu ứng kính */
+    backdrop-filter: blur(16px); /* Hiệu ứng mờ nền Glassmorphism */
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.5); /* Viền sáng của kính */
+    border-radius: 24px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15), 
+                0 0 0 1px rgba(0,0,0,0.02); 
+    display: flex;
+    flex-direction: column;
+    padding: 0; 
+    animation: fadeUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+    position: relative;
+    overflow: visible; 
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px) scale(0.98); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  /* --- BRANDING HEADER --- */
+  .lead-top-bar {
+    padding: 1.25rem 1rem; /* Tăng padding để tạo không gian rộng hơn */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    z-index: 3;
+  }
+
+  .lead-logo {
+    width: 145px; /* Thu nhỏ khoảng 80% so với kích thước cũ */
+    max-width: 100%;
+    height: auto;
+    max-height: 65px; 
+    object-fit: contain;
+    display: block;
+  }
+
+  /* --- BANNER --- */
+  .lead-banner {
+    width: 100%;
+    max-width: none;
+    height: auto;
+    aspect-ratio: 2439 / 1184;
+    object-fit: contain;
+    border-radius: 0;
+    margin: 0; 
+    display: block;
+    position: relative;
+    z-index: 3;
+  }
+
+  /* --- WHITE CONTENT BOX --- */
+  .lead-content-box {
+    background: #ffffff; 
+    margin: 0 1.25rem 1.25rem 1.25rem; 
+    padding: 2rem;
+    border-radius: 24px; 
+    position: relative;
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 10px 25px -5px rgba(0,0,0,0.05); 
+  }
+
+  /* --- TYPOGRAPHY --- */
+  .lead-title {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.4rem;
+    font-weight: 800;
+    text-align: center;
+    color: #0f172a; 
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+  }
+
+  .lead-title:empty {
+    display: none;
+  }
+
+  .lead-desc {
+    margin: 0 0 1.5rem 0;
+    font-size: 0.95rem;
+    color: #64748b; 
+    text-align: center;
+    line-height: 1.5;
+  }
+
+  /* --- ERROR MESSAGE --- */
+  .error-message {
+    background: #fef2f2; 
+    border-left: 4px solid #ef4444; 
+    color: #b91c1c; 
+    padding: 1rem;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    box-shadow: 0 2px 4px rgba(239, 68, 68, 0.05);
+  }
+  
+  .error-message:empty {
+    display: none;
+  }
+
+  /* --- DYNAMIC FORM FIELDS --- */
+  .lead-fields-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .lead-fields-container label {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #334155; 
+    margin-bottom: 0.4rem;
+    display: block;
+  }
+
+  .lead-fields-container input,
+  .lead-fields-container textarea,
+  .lead-fields-container select {
+    width: 100%;
+    background: #f8fafc; 
+    border: 1px solid #e2e8f0;
+    color: #0f172a; 
+    font-size: 1rem;
+    padding: 1rem 1.25rem;
+    border-radius: 12px;
+    box-sizing: border-box;
+    transition: all 0.2s ease;
+    font-family: inherit;
+  }
+  
+  .lead-fields-container input::placeholder {
+    color: #94a3b8; 
+  }
+
+  .lead-fields-container input:focus,
+  .lead-fields-container textarea:focus,
+  .lead-fields-container select:focus {
+    outline: none;
+    border-color: {{primary_color}};
+    background: #ffffff;
+    box-shadow: 0 0 0 4px {{primary_color}}20;
+  }
+
+  /* --- CONSENT CHECKBOX SECTION --- */
+  .lead-consent-wrapper {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    margin-bottom: 2rem;
+    background: #f8fafc; 
+    padding: 1rem 1.25rem;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+  }
+
+  .lead-consent-wrapper input[type="checkbox"] {
+    appearance: none;
+    background-color: #ffffff; 
+    margin: 0;
+    font: inherit;
+    color: currentColor;
+    width: 1.25rem;
+    height: 1.25rem;
+    border: 2px solid #cbd5e1;
+    border-radius: 6px;
+    display: grid;
+    place-content: center;
+    cursor: pointer;
+    flex-shrink: 0;
+    margin-top: 0.1rem;
+    transition: all 0.2s;
+  }
+
+  .lead-consent-wrapper input[type="checkbox"]::before {
+    content: "";
+    width: 0.65rem;
+    height: 0.65rem;
+    transform: scale(0);
+    transition: 120ms transform ease-in-out;
+    box-shadow: inset 1em 1em white;
+    background-color: white;
+    transform-origin: center;
+    clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+  }
+
+  .lead-consent-wrapper input[type="checkbox"]:checked {
+    background-color: {{primary_color}};
+    border-color: {{primary_color}};
+  }
+
+  .lead-consent-wrapper input[type="checkbox"]:checked::before {
+    transform: scale(1);
+  }
+
+  .lead-consent-text {
+    font-size: 0.8rem;
+    color: #475569; 
+    line-height: 1.5;
+    user-select: none;
+  }
+
+  .lead-consent-text a {
+    color: {{primary_color}};
+    text-decoration: none;
+    font-weight: 700;
+  }
+  
+  .lead-consent-text a:hover {
+    text-decoration: underline;
+  }
+
+  /* --- SUBMIT ACTION BUTTON --- */
+  .lead-submit-btn {
+    position: relative;
+    width: 100%;
+    padding: 1.15rem;
+    background: {{primary_color}};
+    color: #ffffff;
+    font-size: 1rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border: none;
+    border-radius: 99px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    box-shadow: 0 8px 15px -5px {{primary_color}}80;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: hidden;
+  }
+
+  .lead-submit-btn::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transform: translateX(-100%);
+    transition: transform 0.6s ease;
+  }
+
+  .lead-submit-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 20px -5px {{primary_color}}99;
+  }
+
+  .lead-submit-btn:hover::after {
+    transform: translateX(100%);
+  }
+
+  .lead-submit-btn:active {
+    transform: translateY(1px);
+    box-shadow: 0 4px 10px -5px {{primary_color}}80;
+  }
+
+  /* --- FLOATING USPS --- */
+  .floating-usps-container {
+    position: absolute;
+    inset: 0; 
+    pointer-events: none;
+    z-index: 10; /* Set z-index cao hơn hẳn banner/form (đang là 3) để luôn đè lên */
+  }
+
+  .usp-item {
+    position: absolute;
+    height: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 8px 12px rgba(0,0,0,0.06)); 
+    animation: float 6s ease-in-out infinite;
+  }
+
+  .usp-1 {
+    width: 55px;
+    top: 5%; /* Bên trái */
+    left: -20px; 
+    animation-delay: 0s;
+  }
+
+  .usp-2 {
+    width: 60px;
+    top: 8%; /* Bên phải, trên cao ngang logo */
+    right: -25px; 
+    animation-delay: -2s;
+  }
+
+  .usp-3 {
+    width: 50px;
+    top: 25%; /* Bên phải, thấp hơn USP 2 một chút, ngang mép trên banner */
+    right: -20px;
+    animation-delay: -4s;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-6px) rotate(3deg); }
+  }
+  
+  /* Responsive */
+  @media (max-width: 480px) {
+    .posmars-lead-panel { 
+      margin: 0 0.5rem; 
+    }
+    .lead-content-box {
+      margin: 0 0.75rem 0.75rem 0.75rem;
+      padding: 1.5rem;
+    }
+    .usp-1 { width: 45px; left: -15px; top: 4%; }
+    .usp-2 { width: 45px; right: -15px; top: 6%; }
+    .usp-3 { width: 40px; right: -10px; top: 22%; }
+  }
+</style>
+
+<div class="posmars-lead-wrapper">
+  <div class="posmars-lead-panel">
+    
+    <!-- Floating USPs (Luôn nổi ở trên cùng) -->
+    <div class="floating-usps-container">
+      <img src="{{extra_asset_usp1}}" class="usp-item usp-1" onerror="this.style.display='none';" />
+      <img src="{{extra_asset_usp2}}" class="usp-item usp-2" onerror="this.style.display='none';" />
+      <img src="{{extra_asset_usp3}}" class="usp-item usp-3" onerror="this.style.display='none';" />
+    </div>
+
+    <!-- Branding Header (Logo) -->
+    <div class="lead-top-bar">
+      <img src="{{logo_url}}" alt="Brand Logo" class="lead-logo" onerror="this.style.display='none';" />
+    </div>
+
+    <!-- Banner Trang Trí (Sát vào content box) -->
+    <img src="{{banner_url}}" alt="Banner" class="lead-banner" onerror="this.style.display='none';" />
+    
+    <!-- Khối nội dung màu trắng bo tròn -->
+    <div class="lead-content-box">
+      
+      <!-- Tiêu đề & Mô tả -->
+      <h1 class="lead-title">{{title}}</h1>
+      <p class="lead-desc">{{description}}</p>
+      
+      <!-- Lỗi (Ẩn nếu rỗng) -->
+      <div id="error-message" class="error-message">{{error}}</div>
+      
+      <!-- Khu vực nhập liệu -->
+      <div class="lead-fields-container">
+        {{fields_html}}
+      </div>
+      
+      <!-- Checkbox điều khoản -->
+      <label class="lead-consent-wrapper" for="consent">
+        <input type="checkbox" id="consent" />
+        <div class="lead-consent-text">
+          {{consent_text}} <br>
+          <a href="{{privacy_policy_link}}">Xem chính sách bảo mật</a>
+        </div>
+      </label>
+      
+      <!-- Nút Submit -->
+      <button class="lead-submit-btn" data-action="submit">
+        <span>{{submit_text}}</span>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M5 12h14"></path>
+          <path d="m12 5 7 7-7 7"></path>
+        </svg>
+      </button>
+
+    </div>
+  </div>
+</div>
