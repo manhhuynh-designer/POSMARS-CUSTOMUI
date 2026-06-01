@@ -397,4 +397,16 @@
       player.pause();
     }
   }
+
+  // Tự động ẩn hoàn toàn khung Video Thumbnail nếu không có video_url từ POSMARS Admin
+  document.addEventListener("DOMContentLoaded", function() {
+    const videoUrl = "{{video_url}}".trim();
+    // Kiểm tra nếu biến rỗng hoặc chưa được render (giữ nguyên định dạng placeholder {{...}})
+    if (!videoUrl || videoUrl === "" || videoUrl.startsWith("{{" + "video_url")) {
+      const container = document.querySelector('.video-thumbnail-container');
+      if (container) {
+        container.style.display = 'none';
+      }
+    }
+  });
 </script>
