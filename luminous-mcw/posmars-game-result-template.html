@@ -45,6 +45,34 @@
     to { opacity: 1; transform: scale(1); }
   }
 
+  /* --- DYNAMIC PHOTO STATE MANAGEMENT --- */
+  /* Trạng thái 1: Chưa chụp ảnh -> Ẩn ảnh preview, ẩn các nút Tiếp tục và Chơi lại */
+  .posmars-result-wrapper[data-has-photo="false"] .captured-preview {
+    display: none !important;
+  }
+  .posmars-result-wrapper[data-has-photo="false"] .next-btn-container,
+  .posmars-result-wrapper[data-has-photo="false"] .restart-container {
+    display: none !important;
+  }
+  .posmars-result-wrapper[data-has-photo="false"] .shutter-text-recapture {
+    display: none;
+  }
+  .posmars-result-wrapper[data-has-photo="false"] .shutter-text-capture {
+    display: block;
+  }
+
+  /* Trạng thái 2: Đã chụp ảnh thành công -> Hiện các nút Tiếp tục, Chơi lại và đổi chữ nút chụp sang Chụp lại */
+  .posmars-result-wrapper[data-has-photo="true"] .next-btn-container,
+  .posmars-result-wrapper[data-has-photo="true"] .restart-container {
+    display: block !important;
+  }
+  .posmars-result-wrapper[data-has-photo="true"] .shutter-text-capture {
+    display: none;
+  }
+  .posmars-result-wrapper[data-has-photo="true"] .shutter-text-recapture {
+    display: block;
+  }
+
   /* --- BORDER FRAME (Robust 4-bar background to support any CSS background type) --- */
   .frame-bar {
     position: absolute;
@@ -300,7 +328,7 @@
   }
 </style>
 
-<div class="posmars-result-wrapper">
+<div class="posmars-result-wrapper" data-has-photo="{{has_captured_image}}">
   <!-- Captured Photo Preview (AR screen capture will update here) -->
   <img src="{{captured_image}}" class="captured-preview" onerror="this.style.display='none';" />
 
@@ -335,7 +363,8 @@
   <div class="shutter-container">
     <button class="shutter-btn" data-action="capture">
       <div class="shutter-inner">
-        <span class="shutter-text">Chụp ảnh</span>
+        <span class="shutter-text shutter-text-capture">Chụp ảnh</span>
+        <span class="shutter-text shutter-text-recapture">Chụp lại</span>
       </div>
     </button>
   </div>
