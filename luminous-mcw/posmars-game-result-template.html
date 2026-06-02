@@ -1,243 +1,235 @@
 <style>
+  :root {
+    --frame-thickness: 16px;
+  }
+
   /* --- BASE & WRAPPER --- */
   .posmars-result-wrapper {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    position: absolute;
+    inset: 0;
     width: 100%;
     height: 100%;
-    padding: 2rem 1rem;
+    pointer-events: none;
     box-sizing: border-box;
-    background: transparent; 
-    position: relative;
-    z-index: 10;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    overflow: hidden;
   }
-  
-  /* --- MAIN PANEL --- */
-  .posmars-result-panel {
-    width: 100%;
-    max-width: 420px;
+
+  /* --- BORDER FRAME (Robust 4-bar background to support any CSS background type) --- */
+  .frame-bar {
+    position: absolute;
     background: {{panel_background}};
-    border-radius: 24px;
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15),
-                inset 0 0 20px rgba(255, 255, 255, 0.5),
-                0 0 30px -10px {{primary_color}}40;
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border: 2px solid rgba(255, 255, 255, 0.7);
-    display: flex;
-    flex-direction: column;
-    padding: 0;
-    animation: fadeUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
-    position: relative;
-    overflow: visible; 
+    z-index: 2;
   }
 
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(20px) scale(0.98); }
-    to { opacity: 1; transform: translateY(0) scale(1); }
+  .frame-top {
+    top: 0;
+    left: 0;
+    right: 0;
+    height: var(--frame-thickness);
   }
 
-  /* --- BRANDING HEADER --- */
-  .result-top-bar {
-    padding: 2rem 2rem 1.25rem 2rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-    z-index: 3;
+  .frame-bottom {
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: var(--frame-thickness);
   }
 
-  .result-logo {
-    width: 145px;
-    max-height: 65px; 
-    object-fit: contain;
-    display: block;
+  .frame-left {
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: var(--frame-thickness);
   }
 
-  /* --- BANNER --- */
-  .result-banner {
-    width: 100%; 
-    height: auto;
-    display: block;
-    margin-bottom: 0; 
-    position: relative;
-    z-index: 3;
+  .frame-right {
+    top: 0;
+    bottom: 0;
+    right: 0;
+    width: var(--frame-thickness);
   }
 
-  /* --- WHITE CONTENT BOX --- */
-  .result-content-box {
-    background: #ffffff;
-    margin: 0; 
-    padding: 2rem;
-    border-radius: 0 0 22px 22px; 
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    position: relative;
-    z-index: 3;
-    box-sizing: border-box;
-    width: 100%;
+  /* --- TOP LEFT: NEXT ACTION --- */
+  .next-btn-container {
+    position: absolute;
+    top: calc(var(--frame-thickness) + 16px);
+    left: calc(var(--frame-thickness) + 16px);
+    z-index: 5;
+    pointer-events: auto;
   }
 
-  /* --- TYPOGRAPHY / TITLE --- */
-  .result-title {
-    margin: 0 0 1rem 0;
-    font-size: 1.4rem;
+  .next-btn {
+    background: rgba(15, 23, 42, 0.65);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: #ffffff;
+    padding: 10px 20px;
+    border-radius: 99px;
+    font-size: 0.85rem;
     font-weight: 800;
-    text-align: center;
-    color: #0f172a; 
     text-transform: uppercase;
-    letter-spacing: 0.02em;
+    letter-spacing: 0.05em;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+    transition: all 0.2s ease;
   }
 
-  .result-title:empty {
-    display: none;
+  .next-btn:hover {
+    background: rgba(15, 23, 42, 0.8);
+    transform: translateY(-1px);
   }
 
-  /* --- SCORE DISPLAY --- */
-  .score-display {
+  .next-btn:active {
+    transform: translateY(1px);
+  }
+
+  /* --- TOP RIGHT: SCORE BOX --- */
+  .score-box-container {
+    position: absolute;
+    top: calc(var(--frame-thickness) + 16px);
+    right: calc(var(--frame-thickness) + 16px);
+    z-index: 5;
+    pointer-events: auto;
+  }
+
+  .score-box {
+    background: rgba(15, 23, 42, 0.65);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1.5px solid rgba(255, 255, 255, 0.15);
+    border-color: {{primary_color}}40;
+    padding: 6px 16px;
+    border-radius: 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-bottom: 1.5rem;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.25),
+                0 0 15px -3px {{primary_color}}20,
+                inset 0 0 8px rgba(255, 255, 255, 0.05);
   }
 
   .score-label {
-    font-size: 0.7rem;
+    font-size: 0.6rem;
     text-transform: uppercase;
-    color: #64748b;
+    color: rgba(255, 255, 255, 0.5);
     font-weight: 800;
-    letter-spacing: 0.1em;
-    margin-bottom: 0.25rem;
+    letter-spacing: 0.05em;
+    line-height: 1;
+    margin-bottom: 2px;
   }
 
   .score-value {
-    font-size: 3.5rem;
+    font-size: 1.35rem;
     font-weight: 900;
-    color: {{primary_color}};
-    line-height: 1;
-    text-shadow: 0 0 20px {{primary_color}}30;
+    color: #ffffff;
+    line-height: 1.1;
+    text-shadow: 0 0 8px {{primary_color}}50;
     font-variant-numeric: tabular-nums;
     font-feature-settings: "tnum";
   }
 
-  /* --- PRIZE BOX --- */
-  .prize-box {
-    width: 100%;
-    background: #f8fafc;
-    border: 2px dashed #cbd5e1;
-    border-radius: 20px;
-    padding: 1.5rem;
-    margin-bottom: 1.5rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.5rem;
-    box-sizing: border-box;
-    transition: all 0.3s ease;
+  /* --- BOTTOM CENTER: SHUTTER CAPTURE BUTTON --- */
+  .shutter-container {
+    position: absolute;
+    bottom: calc(var(--frame-thickness) + 20px);
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 5;
+    pointer-events: auto;
   }
 
-  .prize-box:empty {
-    display: none;
-  }
-
-  .prize-label {
-    font-size: 0.75rem;
-    font-weight: 700;
-    color: {{primary_color}};
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-  }
-
-  .prize-name {
-    font-size: 1.25rem;
-    font-weight: 900;
-    color: #0f172a;
-    text-align: center;
-    margin: 0;
-  }
-
-  .prize-img {
-    width: 80px;
-    height: 80px;
-    object-fit: contain;
-    margin-top: 0.5rem;
-    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.05));
-  }
-
-  /* --- ACTIONS --- */
-  .action-btn {
-    width: 100%;
-    padding: 1.15rem;
-    font-size: 1rem;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    border: none;
-    border-radius: 99px;
+  .shutter-btn {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background: transparent;
+    border: 4px solid #ffffff;
+    padding: 4px;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 0.5rem;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.4), 0 8px 32px rgba(0,0,0,0.3);
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     box-sizing: border-box;
-    margin-bottom: 0.75rem;
   }
 
-  .primary-btn {
+  .shutter-inner {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: #ffffff;
+    transition: all 0.2s ease;
+  }
+
+  .shutter-btn:hover {
+    transform: translateX(-50%) scale(1.08);
+    box-shadow: 0 0 25px rgba(255, 255, 255, 0.6), 0 12px 40px rgba(0,0,0,0.4);
+  }
+
+  .shutter-btn:active .shutter-inner {
+    transform: scale(0.9);
     background: {{primary_color}};
-    color: #ffffff;
-    box-shadow: 0 8px 15px -5px {{primary_color}}80;
   }
 
-  .primary-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 12px 20px -5px {{primary_color}}aa;
+  /* --- BOTTOM RIGHT: PACKSHOT --- */
+  .packshot-container {
+    position: absolute;
+    bottom: calc(var(--frame-thickness) + 16px);
+    right: calc(var(--frame-thickness) + 16px);
+    z-index: 5;
+    pointer-events: auto;
   }
 
-  .primary-btn:active {
-    transform: translateY(1px);
-    box-shadow: 0 4px 10px -5px {{primary_color}}80;
+  .packshot-img {
+    width: 75px;
+    height: auto;
+    max-height: 110px;
+    object-fit: contain;
+    filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.35));
+    animation: packshotFloat 6s ease-in-out infinite;
   }
 
-  .secondary-btn {
-    background: #0f172a;
-    color: #ffffff;
-    box-shadow: 0 8px 15px -5px rgba(15, 23, 42, 0.3);
+  @keyframes packshotFloat {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-8px) rotate(-2deg); }
   }
 
-  .secondary-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 12px 20px -5px rgba(15, 23, 42, 0.4);
-  }
-
-  .secondary-btn:active {
-    transform: translateY(1px);
-    box-shadow: 0 4px 10px -5px rgba(15, 23, 42, 0.3);
-  }
-
-  .btn-icon {
-    width: 18px;
-    height: 18px;
+  /* --- BOTTOM LEFT: RESTART --- */
+  .restart-container {
+    position: absolute;
+    bottom: calc(var(--frame-thickness) + 24px);
+    left: calc(var(--frame-thickness) + 16px);
+    z-index: 5;
+    pointer-events: auto;
   }
 
   .restart-link {
-    margin-top: 1rem;
+    background: rgba(15, 23, 42, 0.5);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.8);
+    padding: 8px 16px;
+    border-radius: 99px;
     font-size: 0.75rem;
-    color: #64748b;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    text-decoration: underline;
+    text-decoration: none;
     cursor: pointer;
-    transition: color 0.2s ease;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
   }
 
   .restart-link:hover {
-    color: {{primary_color}};
+    color: #ffffff;
+    background: rgba(15, 23, 42, 0.7);
   }
 
   /* --- FLOATING USPS --- */
@@ -245,92 +237,102 @@
     position: absolute;
     inset: 0; 
     pointer-events: none; 
-    z-index: 10; 
+    z-index: 3; 
   }
 
   .usp-item {
     position: absolute;
     height: auto;
     object-fit: contain;
-    filter: drop-shadow(0 8px 12px rgba(0,0,0,0.08)); 
+    filter: drop-shadow(0 6px 12px rgba(0,0,0,0.15)); 
     animation: float 6s ease-in-out infinite;
   }
 
-  .usp-1 { width: 55px; top: 5%; left: 12px; }
-  .usp-2 { width: 60px; top: 12%; right: 12px; }
-  .usp-3 { width: 50px; top: 20%; right: 16px; }
+  .usp-1 { width: 45px; top: 22%; left: calc(var(--frame-thickness) + 16px); animation-delay: 0s; }
+  .usp-2 { width: 50px; top: 35%; right: calc(var(--frame-thickness) + 16px); animation-delay: -2s; }
+  .usp-3 { width: 40px; bottom: 25%; left: calc(var(--frame-thickness) + 24px); animation-delay: -4s; }
 
   @keyframes float {
     0%, 100% { transform: translateY(0) rotate(0deg); }
     50% { transform: translateY(-6px) rotate(3deg); }
   }
 
-  /* Responsive */
-  @media (max-width: 480px) {
-    .posmars-result-panel {
-      margin: 0 0.5rem;
+  /* Responsive Adjustments for Small Mobile Viewports */
+  @media (max-width: 380px) {
+    :root {
+      --frame-thickness: 12px;
     }
-    .usp-1 { width: 45px; left: 12px; top: 4%; }
-    .usp-2 { width: 45px; right: 12px; top: 8%; }
-    .usp-3 { width: 40px; right: 16px; top: 16%; }
+    .packshot-img {
+      width: 60px;
+    }
+    .shutter-btn {
+      width: 64px;
+      height: 64px;
+    }
+    .score-value {
+      font-size: 1.15rem;
+    }
+    .next-btn {
+      padding: 8px 16px;
+      font-size: 0.8rem;
+    }
+    .restart-link {
+      padding: 6px 12px;
+      font-size: 0.7rem;
+    }
+    .usp-1 { width: 35px; }
+    .usp-2 { width: 40px; }
+    .usp-3 { width: 32px; }
   }
 </style>
 
 <div class="posmars-result-wrapper">
-  <div class="posmars-result-panel" style="background: {{panel_background}};">
-    
-    <!-- Floating USPs (Luôn nổi ở trong viền card để tránh bị clip) -->
-    <div class="floating-usps-container">
-      <img src="{{extra_asset_usp1}}" class="usp-item usp-1" onerror="this.style.display='none';" />
-      <img src="{{extra_asset_usp2}}" class="usp-item usp-2" onerror="this.style.display='none';" />
-      <img src="{{extra_asset_usp3}}" class="usp-item usp-3" onerror="this.style.display='none';" />
+  <!-- Border Frame bars -->
+  <div class="frame-bar frame-top"></div>
+  <div class="frame-bar frame-bottom"></div>
+  <div class="frame-bar frame-left"></div>
+  <div class="frame-bar frame-right"></div>
+
+  <!-- Floating USPs (Luôn nổi ở trong viền card để tránh bị clip) -->
+  <div class="floating-usps-container">
+    <img src="{{extra_asset_usp1}}" class="usp-item usp-1" onerror="this.style.display='none';" />
+    <img src="{{extra_asset_usp2}}" class="usp-item usp-2" onerror="this.style.display='none';" />
+    <img src="{{extra_asset_usp3}}" class="usp-item usp-3" onerror="this.style.display='none';" />
+  </div>
+
+  <!-- Top-left Next button -->
+  <div class="next-btn-container">
+    <button class="next-btn" data-action="next">
+      <span>Tiếp tục</span>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M5 12h14"></path>
+        <path d="m12 5 7 7-7 7"></path>
+      </svg>
+    </button>
+  </div>
+
+  <!-- Top-right Score display -->
+  <div class="score-box-container">
+    <div class="score-box">
+      <span class="score-label">Điểm</span>
+      <span class="score-value">{{score}}</span>
     </div>
+  </div>
 
-    <!-- Header Logo -->
-    <div class="result-top-bar">
-      <img src="{{logo_url}}" alt="Logo" class="result-logo" onerror="this.style.display='none';" />
-    </div>
-    
-    <!-- Banner -->
-    <img src="{{extra_asset_banner}}" alt="Banner" class="result-banner" onerror="this.style.display='none';" />
+  <!-- Bottom-center Shutter Button -->
+  <div class="shutter-container">
+    <button class="shutter-btn" data-action="capture">
+      <div class="shutter-inner"></div>
+    </button>
+  </div>
 
-    <!-- Content Box -->
-    <div class="result-content-box">
-      <!-- Tiêu đề chúc mừng -->
-      <h1 class="result-title">{{title}}</h1>
+  <!-- Bottom-left Restart Link -->
+  <div class="restart-container">
+    <a class="restart-link" data-action="restart">Chơi lại</a>
+  </div>
 
-      <!-- Tổng điểm số -->
-      <div class="score-display">
-        <span class="score-label">Tổng điểm số</span>
-        <span class="score-value">{{score}}</span>
-      </div>
-
-      <!-- Phần thưởng đạt được -->
-      <div class="prize-box">
-        <span class="prize-label">Phần quà đạt được</span>
-        <h2 class="prize-name">{{prize_name}}</h2>
-        <img src="{{prize_image}}" class="prize-img" onerror="this.style.display='none';" />
-      </div>
-
-      <!-- Các nút hành động chính -->
-      <button class="action-btn primary-btn" data-action="capture">
-        <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-          <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
-          <circle cx="12" cy="13" r="4"></circle>
-        </svg>
-        <span>Chụp ảnh lưu niệm</span>
-      </button>
-
-      <button class="action-btn secondary-btn" data-action="next">
-        <span>Tiếp tục</span>
-        <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-          <path d="M5 12h14"></path>
-          <path d="m12 5 7 7-7 7"></path>
-        </svg>
-      </button>
-
-      <!-- Quay lại / Chơi lại -->
-      <a class="restart-link" data-action="restart">Chơi lại</a>
-    </div>
+  <!-- Bottom-right Packshot image -->
+  <div class="packshot-container">
+    <img src="{{extra_asset_packshot}}" alt="Packshot Product" class="packshot-img" onerror="this.style.display='none';" />
   </div>
 </div>
