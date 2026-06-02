@@ -79,12 +79,14 @@
     background: #ffffff;
     width: calc(100% + 4rem);
     margin: 0 -2rem 0 -2rem; 
-    padding: 2rem 2rem 2.5rem 2rem;
+    padding: 2rem;
     /* Bo góc dưới bằng với panel trừ đi 2px của border để khớp hoàn toàn */
     border-radius: 0 0 22px 22px; 
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center; /* Căn giữa dọc nội dung để cân đối khoảng trống */
+    min-height: 180px; /* Đảm bảo chiều cao tối thiểu hợp lý */
     position: relative;
     z-index: 3;
     box-sizing: border-box;
@@ -106,12 +108,16 @@
   }
 
   .intro-desc {
-    margin: 0 0 1rem 0;
+    margin: 0 0 1.5rem 0;
     font-size: 0.95rem;
     color: {{text_color}}; 
     opacity: 0.75;
     text-align: center;
     line-height: 1.5;
+  }
+
+  .intro-desc:empty {
+    display: none; /* Ẩn hoàn toàn khoảng chiếm dụng của desc nếu rỗng */
   }
 
   .camera-hint {
