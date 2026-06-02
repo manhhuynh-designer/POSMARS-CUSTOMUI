@@ -92,7 +92,7 @@
 
   /* --- TYPOGRAPHY --- */
   .intro-title {
-    margin: 0 0 0.5rem 0;
+    margin: 0 0 0.75rem 0;
     font-size: 1.4rem;
     font-weight: 800;
     text-align: center;
@@ -105,13 +105,98 @@
     display: none;
   }
 
-  .intro-desc {
-    margin: 0 0 1.75rem 0;
+  /* --- PLAYS COUNTER --- */
+  .plays-counter {
+    background: #f8fafc;
+    border: 1px solid #cbd5e1;
+    border-radius: 12px;
+    padding: 0.4rem 1rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #475569;
+    margin-bottom: 1.25rem;
+    display: inline-block;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+  }
+  .plays-counter strong {
+    color: {{primary_color}};
     font-size: 0.95rem;
-    color: {{text_color}}; 
-    opacity: 0.75;
-    text-align: center;
-    line-height: 1.5;
+  }
+
+  /* --- RULES CONTAINER --- */
+  .rules-container {
+    width: 100%;
+    margin-bottom: 1.25rem;
+    background: #f8fafc;
+    border-radius: 16px;
+    border: 1px solid #e2e8f0;
+    overflow: hidden;
+    text-align: left;
+  }
+  
+  .rules-header {
+    background: #f1f5f9;
+    padding: 0.6rem 1.25rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #1e293b;
+    border-bottom: 1px solid #e2e8f0;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+  }
+
+  .rules-content {
+    padding: 0.85rem 1.25rem;
+    font-size: 0.85rem;
+    color: #475569;
+    line-height: 1.6;
+    max-height: 100px;
+    overflow-y: auto;
+  }
+
+  /* --- PRIZES CONTAINER --- */
+  .prizes-container {
+    width: 100%;
+    margin-bottom: 1.75rem;
+    text-align: left;
+  }
+
+  .prizes-header {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    border-left: 3px solid {{primary_color}};
+    padding-left: 0.5rem;
+  }
+
+  .prizes-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    max-height: 120px;
+    overflow-y: auto;
+  }
+
+  /* Custom Scrollbars */
+  .rules-content::-webkit-scrollbar,
+  .prizes-list::-webkit-scrollbar {
+    width: 4px;
+  }
+  .rules-content::-webkit-scrollbar-track,
+  .prizes-list::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .rules-content::-webkit-scrollbar-thumb,
+  .prizes-list::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 4px;
+  }
+  .rules-content::-webkit-scrollbar-thumb:hover,
+  .prizes-list::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
   }
 
   /* --- ACTION BUTTON --- */
@@ -274,9 +359,29 @@
 
     <!-- Box Nội Dung Trắng (Gắn sát banner) -->
     <div class="intro-content-box">
-      <!-- Tiêu đề & Mô tả -->
+      <!-- Tiêu đề -->
       <h1 class="intro-title">{{title}}</h1>
-      <p class="intro-desc">{{description}}</p>
+
+      <!-- Số lượt chơi còn lại -->
+      <div class="plays-counter">
+        Lượt chơi: <strong>{{remaining_plays}}</strong> / {{max_plays}}
+      </div>
+
+      <!-- Thể lệ chương trình -->
+      <div class="rules-container">
+        <div class="rules-header">Thể lệ chương trình</div>
+        <div class="rules-content">
+          {{rules_text}}
+        </div>
+      </div>
+
+      <!-- Danh sách giải thưởng -->
+      <div class="prizes-container">
+        <div class="prizes-header">Giải thưởng hấp dẫn</div>
+        <div class="prizes-list">
+          {{prizes_html}}
+        </div>
+      </div>
 
       <!-- Nút Bắt đầu -->
       <button 
