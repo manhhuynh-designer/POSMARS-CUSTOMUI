@@ -34,8 +34,7 @@
     border: 2px solid rgba(255, 255, 255, 0.7);
     display: flex;
     flex-direction: column;
-    /* Bỏ padding bottom để khối trắng bên trong áp sát đáy */
-    padding: 2.5rem 2rem 0 2rem;
+    padding: 0; /* Đổi về 0 để đồng bộ cấu hình */
     animation: fadeUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
     position: relative;
     /* Cho phép floating USP tràn ra ngoài */
@@ -54,7 +53,7 @@
     height: auto;
     max-height: 80px; 
     object-fit: contain;
-    margin: 0 auto 1.25rem auto; 
+    margin: 2rem auto 1.25rem auto; /* Thêm khoảng cách phía trên do panel padding = 0 */
     display: block;
     position: relative;
     z-index: 3;
@@ -62,11 +61,9 @@
 
   /* --- BANNER --- */
   .intro-banner {
-    /* Tràn viền bằng margin âm, bù trừ cho padding: 2rem của panel */
-    width: calc(100% + 4rem); 
+    width: 100%; 
     max-width: none;
-    /* Gắn chặt với bottom bằng margin-bottom: 0 */
-    margin: 0 -2rem 0 -2rem; 
+    margin: 0; 
     height: auto;
     display: block;
     border-radius: 0; /* Không bo góc */
@@ -77,11 +74,9 @@
   /* --- BỘ CỤC NỘI DUNG (KHỐI TRẮNG) --- */
   .intro-content-box {
     background: #ffffff;
-    width: calc(100% + 4rem);
-    margin: 0 -2rem 0 -2rem; 
+    margin: 0 1.25rem 1.25rem 1.25rem; /* Margins left-right-bottom đồng đều, top chạm banner */
     padding: 2rem;
-    /* Bo góc dưới bằng với panel trừ đi 2px của border để khớp hoàn toàn */
-    border-radius: 0 0 22px 22px; 
+    border-radius: 24px; /* Bo tròn đều cả 4 góc */
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -90,6 +85,7 @@
     position: relative;
     z-index: 3;
     box-sizing: border-box;
+    box-shadow: 0 10px 25px -5px rgba(0,0,0,0.05);
   }
 
   /* --- TYPOGRAPHY --- */
@@ -146,13 +142,14 @@
     border: none;
     border-radius: 99px; /* Dạng Pill */
     cursor: pointer;
-    display: flex;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
     box-shadow: 0 8px 15px -5px {{primary_color}}80;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     overflow: hidden;
+    box-sizing: border-box; /* Fix lỗi tràn viền gây lệch nút */
   }
 
   .start-btn::after {
@@ -192,10 +189,11 @@
     display: none;
     width: 20px;
     height: 20px;
-    border: 3px solid {{text_color}}20;
-    border-top-color: {{primary_color}}; 
+    border: 3px solid rgba(255, 255, 255, 0.3); /* Dùng viền trắng mờ để nổi bật trên nền tím */
+    border-top-color: #ffffff; /* Đầu xoay màu trắng để nhìn thấy được */
     border-radius: 50%;
     animation: spin 0.8s linear infinite;
+    flex-shrink: 0;
   }
 
   @keyframes spin {
@@ -258,16 +256,16 @@
   /* Responsive an toàn cho màn hình di động nhỏ */
   @media (max-width: 480px) {
     .posmars-intro-panel { 
-      padding: 2rem 1.5rem 0 1.5rem;
+      padding: 0;
       margin: 0 1.75rem; /* Tăng margin để thu hẹp card, tạo không gian bên ngoài cho USP bay lượn */
     }
     .intro-banner {
-      width: calc(100% + 3rem);
-      margin: 0 -1.5rem 0 -1.5rem;
+      width: 100%;
+      margin: 0;
     }
     .intro-content-box {
-      width: calc(100% + 3rem);
-      margin: 0 -1.5rem 0 -1.5rem;
+      width: auto;
+      margin: 0 1rem 1rem 1rem;
       padding: 1.75rem 1.5rem 2rem 1.5rem;
     }
     /* Đưa USP ra rìa ngoài nhẹ trên mobile, đảm bảo không bị mất cạnh nhờ khoảng margin 1.75rem bên trên */
