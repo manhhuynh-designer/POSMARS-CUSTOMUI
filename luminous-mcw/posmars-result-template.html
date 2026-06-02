@@ -48,6 +48,8 @@
     width: 145px;
     max-height: 65px; 
     object-fit: contain;
+    transform: scale(var(--logo-scale, 1));
+    transform-origin: center;
   }
 
   /* --- BANNER --- */
@@ -225,6 +227,25 @@
     letter-spacing: 0.05em;
   }
 
+  /* --- PHOTO PREVIEW --- */
+  .photo-preview-container {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background: #0f172a;
+    border-radius: 16px;
+    overflow: hidden;
+    position: relative;
+    margin-bottom: 1.25rem;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+  }
+
+  .photo-preview {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
   /* --- VIDEO MODAL --- */
   .video-modal {
     position: fixed;
@@ -339,7 +360,7 @@
   }
 </style>
 
-<div class="posmars-result-wrapper">
+<div class="posmars-result-wrapper" style="background: {{main_background}};">
   <div class="posmars-result-panel" style="background: {{panel_background}};">
     
     <div class="floating-usps-container">
@@ -349,7 +370,7 @@
     </div>
 
     <div class="result-top-bar">
-      <img src="{{logo_url}}" alt="Logo" class="result-logo" onerror="this.style.display='none';" />
+      <img src="{{logo_url}}" alt="Logo" class="result-logo" style="--logo-scale: {{logo_scale}};" onerror="this.style.display='none';" />
     </div>
     
     <img src="{{extra_asset_banner}}" alt="Banner" class="result-banner" onerror="this.style.display='none';" />
@@ -358,11 +379,22 @@
       <h1 class="result-title">{{result_title}}</h1>
       <p class="result-desc">{{result_message}}</p>
 
-      
+      <!-- Voucher Card Section -->
+      <div class="voucher-card">
+        <div class="voucher-label">{{voucher_label}}</div>
+        <div class="voucher-code">{{voucher_code}}</div>
+        <button class="copy-btn" data-action="copy">Sao chép mã</button>
+      </div>
 
       <button class="action-btn share-btn" data-action="share">Chia sẻ ngay</button>
+
+      <!-- Photo Preview (Visible if result_image or image_url is present and video_url is not) -->
+      <div class="photo-preview-container" style="display: none;">
+        <img class="photo-preview" src="{{result_image}}" onerror="handlePhotoError(this);" />
+      </div>
+
       <!-- Thumbnail Video -->
-      <div class="video-thumbnail-container" data-action="play-video" onclick="openVideoModal()">
+      <div class="video-thumbnail-container" data-action="play-video" onclick="openVideoModal()" style="display: none;">
         <video class="video-thumbnail" src="{{video_url}}#t=0.1" preload="metadata" muted playsinline></video>
         <div class="video-play-overlay">
           <div class="play-icon-wrapper">
@@ -373,6 +405,7 @@
           <span class="video-play-text">Xem lại video</span>
         </div>
       </div>
+      
       <button class="action-btn" style="background:transparent; color:#64748b; border: 1px solid #e2e8f0;" data-action="download">Tải ảnh/video</button>
       
       <a class="restart-link" data-action="restart">Chơi lại</a>
@@ -407,6 +440,54 @@
       player.pause();
     }
   }
+
+  function handlePhotoError(img) {
+    const imageUrl = "{{image_url}}".trim();
+    if (imageUrl && !imageUrl.includes('{{image_url}}') && img.src !== imageUrl) {
+      img.src = imageUrl;
+    } else {
+      const container = img.closest('.photo-preview-container');
+      if (container) {
+        container.style.display = 'none';
+      }
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    // 1. Media Preview selection logic
+    const videoUrl = "{{video_url}}".trim();
+    const resultImage = "{{result_image}}".trim();
+    const imageUrl = "{{image_url}}".trim();
+    
+    const hasVideo = videoUrl && !videoUrl.includes('{{video_url}}');
+    const hasResultImage = resultImage && !resultImage.includes('{{result_image}}');
+    const hasImageUrl = imageUrl && !imageUrl.includes('{{image_url}}');
+
+    const videoContainer = document.querySelector('.video-thumbnail-container');
+    const photoContainer = document.querySelector('.photo-preview-container');
+    const photoImg = document.querySelector('.photo-preview');
+
+    if (hasVideo) {
+      if (videoContainer) videoContainer.style.display = 'block';
+    } else if (hasResultImage || hasImageUrl) {
+      if (photoContainer) photoContainer.style.display = 'block';
+      if (photoImg) {
+        if (hasResultImage) {
+          photoImg.src = resultImage;
+        } else {
+          photoImg.src = imageUrl;
+        }
+      }
+    }
+
+    // 2. Voucher Card visibility logic
+    const voucherCode = "{{voucher_code}}".trim();
+    const hasVoucher = voucherCode && !voucherCode.includes('{{voucher_code}}');
+    const voucherCard = document.querySelector('.voucher-card');
+    if (voucherCard && !hasVoucher) {
+      voucherCard.style.display = 'none';
+    }
+  });
 
 
 </script>
