@@ -1,0 +1,336 @@
+<style>
+  /* --- BASE & WRAPPER --- */
+  .posmars-result-wrapper {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    padding: 2rem 1rem;
+    box-sizing: border-box;
+    background: transparent; 
+    position: relative;
+    z-index: 10;
+  }
+  
+  /* --- MAIN PANEL --- */
+  .posmars-result-panel {
+    width: 100%;
+    max-width: 420px;
+    background: {{panel_background}};
+    border-radius: 24px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15),
+                inset 0 0 20px rgba(255, 255, 255, 0.5),
+                0 0 30px -10px {{primary_color}}40;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 2px solid rgba(255, 255, 255, 0.7);
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    animation: fadeUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+    position: relative;
+    overflow: visible; 
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px) scale(0.98); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  /* --- BRANDING HEADER --- */
+  .result-top-bar {
+    padding: 2rem 2rem 1.25rem 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    z-index: 3;
+  }
+
+  .result-logo {
+    width: 145px;
+    max-height: 65px; 
+    object-fit: contain;
+    display: block;
+  }
+
+  /* --- BANNER --- */
+  .result-banner {
+    width: 100%; 
+    height: auto;
+    display: block;
+    margin-bottom: 0; 
+    position: relative;
+    z-index: 3;
+  }
+
+  /* --- WHITE CONTENT BOX --- */
+  .result-content-box {
+    background: #ffffff;
+    margin: 0; 
+    padding: 2rem;
+    border-radius: 0 0 22px 22px; 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    z-index: 3;
+    box-sizing: border-box;
+    width: 100%;
+  }
+
+  /* --- TYPOGRAPHY / TITLE --- */
+  .result-title {
+    margin: 0 0 1rem 0;
+    font-size: 1.4rem;
+    font-weight: 800;
+    text-align: center;
+    color: #0f172a; 
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+  }
+
+  .result-title:empty {
+    display: none;
+  }
+
+  /* --- SCORE DISPLAY --- */
+  .score-display {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 1.5rem;
+  }
+
+  .score-label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    color: #64748b;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    margin-bottom: 0.25rem;
+  }
+
+  .score-value {
+    font-size: 3.5rem;
+    font-weight: 900;
+    color: {{primary_color}};
+    line-height: 1;
+    text-shadow: 0 0 20px {{primary_color}}30;
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: "tnum";
+  }
+
+  /* --- PRIZE BOX --- */
+  .prize-box {
+    width: 100%;
+    background: #f8fafc;
+    border: 2px dashed #cbd5e1;
+    border-radius: 20px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    box-sizing: border-box;
+    transition: all 0.3s ease;
+  }
+
+  .prize-box:empty {
+    display: none;
+  }
+
+  .prize-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: {{primary_color}};
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .prize-name {
+    font-size: 1.25rem;
+    font-weight: 900;
+    color: #0f172a;
+    text-align: center;
+    margin: 0;
+  }
+
+  .prize-img {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+    margin-top: 0.5rem;
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.05));
+  }
+
+  /* --- ACTIONS --- */
+  .action-btn {
+    width: 100%;
+    padding: 1.15rem;
+    font-size: 1rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border: none;
+    border-radius: 99px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-sizing: border-box;
+    margin-bottom: 0.75rem;
+  }
+
+  .primary-btn {
+    background: {{primary_color}};
+    color: #ffffff;
+    box-shadow: 0 8px 15px -5px {{primary_color}}80;
+  }
+
+  .primary-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 20px -5px {{primary_color}}aa;
+  }
+
+  .primary-btn:active {
+    transform: translateY(1px);
+    box-shadow: 0 4px 10px -5px {{primary_color}}80;
+  }
+
+  .secondary-btn {
+    background: #0f172a;
+    color: #ffffff;
+    box-shadow: 0 8px 15px -5px rgba(15, 23, 42, 0.3);
+  }
+
+  .secondary-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 20px -5px rgba(15, 23, 42, 0.4);
+  }
+
+  .secondary-btn:active {
+    transform: translateY(1px);
+    box-shadow: 0 4px 10px -5px rgba(15, 23, 42, 0.3);
+  }
+
+  .btn-icon {
+    width: 18px;
+    height: 18px;
+  }
+
+  .restart-link {
+    margin-top: 1rem;
+    font-size: 0.75rem;
+    color: #64748b;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    text-decoration: underline;
+    cursor: pointer;
+    transition: color 0.2s ease;
+  }
+
+  .restart-link:hover {
+    color: {{primary_color}};
+  }
+
+  /* --- FLOATING USPS --- */
+  .floating-usps-container {
+    position: absolute;
+    inset: 0; 
+    pointer-events: none; 
+    z-index: 10; 
+  }
+
+  .usp-item {
+    position: absolute;
+    height: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 8px 12px rgba(0,0,0,0.08)); 
+    animation: float 6s ease-in-out infinite;
+  }
+
+  .usp-1 { width: 55px; top: 5%; left: 12px; }
+  .usp-2 { width: 60px; top: 12%; right: 12px; }
+  .usp-3 { width: 50px; top: 20%; right: 16px; }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-6px) rotate(3deg); }
+  }
+
+  /* Responsive */
+  @media (max-width: 480px) {
+    .posmars-result-panel {
+      margin: 0 0.5rem;
+    }
+    .usp-1 { width: 45px; left: 12px; top: 4%; }
+    .usp-2 { width: 45px; right: 12px; top: 8%; }
+    .usp-3 { width: 40px; right: 16px; top: 16%; }
+  }
+</style>
+
+<div class="posmars-result-wrapper">
+  <div class="posmars-result-panel" style="background: {{panel_background}};">
+    
+    <!-- Floating USPs (Luôn nổi ở trong viền card để tránh bị clip) -->
+    <div class="floating-usps-container">
+      <img src="{{extra_asset_usp1}}" class="usp-item usp-1" onerror="this.style.display='none';" />
+      <img src="{{extra_asset_usp2}}" class="usp-item usp-2" onerror="this.style.display='none';" />
+      <img src="{{extra_asset_usp3}}" class="usp-item usp-3" onerror="this.style.display='none';" />
+    </div>
+
+    <!-- Header Logo -->
+    <div class="result-top-bar">
+      <img src="{{logo_url}}" alt="Logo" class="result-logo" onerror="this.style.display='none';" />
+    </div>
+    
+    <!-- Banner -->
+    <img src="{{extra_asset_banner}}" alt="Banner" class="result-banner" onerror="this.style.display='none';" />
+
+    <!-- Content Box -->
+    <div class="result-content-box">
+      <!-- Tiêu đề chúc mừng -->
+      <h1 class="result-title">{{title}}</h1>
+
+      <!-- Tổng điểm số -->
+      <div class="score-display">
+        <span class="score-label">Tổng điểm số</span>
+        <span class="score-value">{{score}}</span>
+      </div>
+
+      <!-- Phần thưởng đạt được -->
+      <div class="prize-box">
+        <span class="prize-label">Phần quà đạt được</span>
+        <h2 class="prize-name">{{prize_name}}</h2>
+        <img src="{{prize_image}}" class="prize-img" onerror="this.style.display='none';" />
+      </div>
+
+      <!-- Các nút hành động chính -->
+      <button class="action-btn primary-btn" data-action="capture">
+        <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
+          <circle cx="12" cy="13" r="4"></circle>
+        </svg>
+        <span>Chụp ảnh lưu niệm</span>
+      </button>
+
+      <button class="action-btn secondary-btn" data-action="next">
+        <span>Tiếp tục</span>
+        <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <path d="M5 12h14"></path>
+          <path d="m12 5 7 7-7 7"></path>
+        </svg>
+      </button>
+
+      <!-- Quay lại / Chơi lại -->
+      <a class="restart-link" data-action="restart">Chơi lại</a>
+    </div>
+  </div>
+</div>
