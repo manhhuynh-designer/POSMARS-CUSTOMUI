@@ -213,7 +213,7 @@
     position: absolute;
     inset: 0; 
     pointer-events: none; 
-    z-index: 4; 
+    z-index: 10; 
   }
 
   .usp-item {
@@ -269,9 +269,9 @@
       margin: 0 -1.5rem 0 -1.5rem;
       padding: 1.75rem 1.5rem 2rem 1.5rem;
     }
-    .usp-1 { width: 45px; left: -15px; top: 6%; }
-    .usp-2 { width: 45px; right: -15px; top: 22%; }
-    .usp-3 { width: 40px; right: -5px; top: 40%; }
+    .usp-1 { width: 45px; left: 12px; top: 6%; }
+    .usp-2 { width: 45px; right: 12px; top: 22%; }
+    .usp-3 { width: 40px; right: 16px; top: 40%; }
   }
 </style>
 
@@ -315,3 +315,30 @@
 
   </div>
 </div>
+
+<script>
+  // Script hỗ trợ debug các tài sản nổi (USP)
+  document.addEventListener("DOMContentLoaded", function() {
+    console.log("=== POSMARS FLOATING ASSETS DEBUG ===");
+    console.log("USP 1 URL:", "{{extra_asset_usp1}}");
+    console.log("USP 2 URL:", "{{extra_asset_usp2}}");
+    console.log("USP 3 URL:", "{{extra_asset_usp3}}");
+    
+    const items = [
+      { id: 1, url: "{{extra_asset_usp1}}", el: document.querySelector('.usp-1') },
+      { id: 2, url: "{{extra_asset_usp2}}", el: document.querySelector('.usp-2') },
+      { id: 3, url: "{{extra_asset_usp3}}", el: document.querySelector('.usp-3') }
+    ];
+    
+    items.forEach(item => {
+      if (item.el) {
+        item.el.addEventListener('error', function() {
+          console.error(`[POSMARS DEBUG] USP ${item.id} tải thất bại. URL gốc:`, item.url);
+        });
+        item.el.addEventListener('load', function() {
+          console.log(`[POSMARS DEBUG] USP ${item.id} tải thành công! URL:`, item.el.src);
+        });
+      }
+    });
+  });
+</script>

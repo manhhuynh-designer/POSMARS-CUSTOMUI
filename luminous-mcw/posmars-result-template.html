@@ -308,7 +308,7 @@
     position: absolute;
     inset: 0; 
     pointer-events: none; 
-    z-index: 4; 
+    z-index: 10; 
   }
 
   .usp-item {
@@ -319,13 +319,23 @@
     animation: float 6s ease-in-out infinite;
   }
 
-  .usp-1 { width: 55px; top: 5%; left: -25px; }
-  .usp-2 { width: 60px; top: 12%; right: -25px; }
-  .usp-3 { width: 50px; top: 20%; right: -15px; }
+  .usp-1 { width: 55px; top: 5%; left: 12px; }
+  .usp-2 { width: 60px; top: 12%; right: 12px; }
+  .usp-3 { width: 50px; top: 20%; right: 16px; }
 
   @keyframes float {
     0%, 100% { transform: translateY(0) rotate(0deg); }
     50% { transform: translateY(-6px) rotate(3deg); }
+  }
+
+  /* Responsive */
+  @media (max-width: 480px) {
+    .posmars-result-panel {
+      margin: 0 0.5rem;
+    }
+    .usp-1 { width: 45px; left: 12px; top: 4%; }
+    .usp-2 { width: 45px; right: 12px; top: 8%; }
+    .usp-3 { width: 40px; right: 16px; top: 16%; }
   }
 </style>
 
