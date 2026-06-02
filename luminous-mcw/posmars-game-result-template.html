@@ -46,31 +46,9 @@
   }
 
   /* --- DYNAMIC PHOTO STATE MANAGEMENT --- */
-  /* Trạng thái 1: Chưa chụp ảnh -> Ẩn ảnh preview, ẩn các nút Tiếp tục và Chơi lại */
+  /* Trạng thái 1: Chưa chụp ảnh -> Ẩn ảnh preview */
   .posmars-result-wrapper[data-has-photo="false"] .captured-preview {
     display: none !important;
-  }
-  .posmars-result-wrapper[data-has-photo="false"] .next-btn-container,
-  .posmars-result-wrapper[data-has-photo="false"] .restart-container {
-    display: none !important;
-  }
-  .posmars-result-wrapper[data-has-photo="false"] .shutter-text-recapture {
-    display: none;
-  }
-  .posmars-result-wrapper[data-has-photo="false"] .shutter-text-capture {
-    display: block;
-  }
-
-  /* Trạng thái 2: Đã chụp ảnh thành công -> Hiện các nút Tiếp tục, Chơi lại và đổi chữ nút chụp sang Chụp lại */
-  .posmars-result-wrapper[data-has-photo="true"] .next-btn-container,
-  .posmars-result-wrapper[data-has-photo="true"] .restart-container {
-    display: block !important;
-  }
-  .posmars-result-wrapper[data-has-photo="true"] .shutter-text-capture {
-    display: none;
-  }
-  .posmars-result-wrapper[data-has-photo="true"] .shutter-text-recapture {
-    display: block;
   }
 
   /* --- BORDER FRAME (Robust 4-bar background to support any CSS background type) --- */
@@ -120,25 +98,20 @@
   }
 
   .score-box {
-    background: rgba(15, 23, 42, 0.65);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1.5px solid rgba(255, 255, 255, 0.15);
-    border-color: {{primary_color}}40;
+    background: {{primary_color}};
+    border: 1.5px solid rgba(255, 255, 255, 0.35);
     padding: 6px 16px;
     border-radius: 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.25),
-                0 0 15px -3px {{primary_color}}20,
-                inset 0 0 8px rgba(255, 255, 255, 0.05);
+    box-shadow: 0 8px 24px {{primary_color}}40;
   }
 
   .score-label {
     font-size: 0.6rem;
     text-transform: uppercase;
-    color: rgba(255, 255, 255, 0.5);
+    color: rgba(255, 255, 255, 0.85);
     font-weight: 800;
     letter-spacing: 0.05em;
     line-height: 1;
@@ -148,9 +121,9 @@
   .score-value {
     font-size: 1.35rem;
     font-weight: 900;
-    color: {{primary_color}};
+    color: #ffffff;
     line-height: 1.1;
-    text-shadow: 0 0 8px {{primary_color}}40;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
     font-variant-numeric: tabular-nums;
     font-feature-settings: "tnum";
   }
@@ -306,42 +279,94 @@
     50% { transform: translateY(-8px) rotate(-2deg); }
   }
 
-  /* --- BOTTOM LEFT: RESTART --- */
+  /* --- TOP LEFT: RESTART --- */
   .restart-container {
     position: absolute;
-    bottom: calc(var(--frame-thickness) + 24px);
+    top: calc(var(--frame-thickness) + 16px);
     left: calc(var(--frame-thickness) + 16px);
     z-index: 5;
     pointer-events: auto;
   }
 
   .restart-link {
-    background: rgba(15, 23, 42, 0.5);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    color: rgba(255, 255, 255, 0.8);
+    background: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1.5px solid rgba(255, 255, 255, 0.2);
+    color: #ffffff;
     padding: 8px 16px;
     border-radius: 99px;
     font-size: 0.75rem;
-    font-weight: 700;
+    font-weight: 800;
     text-transform: uppercase;
     letter-spacing: 0.05em;
     text-decoration: none;
     cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
     transition: all 0.2s ease;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.25);
   }
 
   .restart-link:hover {
-    color: #ffffff;
-    background: rgba(15, 23, 42, 0.7);
+    transform: scale(1.05);
+    background: rgba(15, 23, 42, 0.8);
+    border-color: rgba(255, 255, 255, 0.35);
+  }
+
+  .restart-link:active {
+    transform: scale(0.95);
+  }
+
+  /* --- BRAND LOGO --- */
+  .logo-container {
+    position: absolute;
+    top: calc(var(--frame-thickness) + 12px);
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 5;
+    pointer-events: auto;
+    display: flex;
+    justify-content: center;
+  }
+
+  .brand-logo {
+    max-width: 110px;
+    height: auto;
+    max-height: 48px;
+    object-fit: contain;
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+    transform: scale(var(--logo-scale, 1));
+    transform-origin: center;
   }
 
   /* Responsive Adjustments for Small Mobile Viewports */
   @media (max-width: 380px) {
     :root {
       --frame-thickness: 12px;
+    }
+    .brand-logo {
+      max-width: 85px;
+      max-height: 36px;
+    }
+    .restart-container {
+      top: calc(var(--frame-thickness) + 10px);
+      left: calc(var(--frame-thickness) + 10px);
+    }
+    .score-box-container {
+      top: calc(var(--frame-thickness) + 10px);
+      right: calc(var(--frame-thickness) + 10px);
+    }
+    .logo-container {
+      top: calc(var(--frame-thickness) + 10px);
+    }
+    .restart-link {
+      padding: 6px 12px;
+      font-size: 0.7rem;
+    }
+    .score-value {
+      font-size: 1.15rem;
     }
     .packshot-img {
       width: 60px;
@@ -350,16 +375,9 @@
       width: 64px;
       height: 64px;
     }
-    .score-value {
-      font-size: 1.15rem;
-    }
     .action-btn-pill {
       padding: 8px 14px;
       font-size: 0.78rem;
-    }
-    .restart-link {
-      padding: 6px 12px;
-      font-size: 0.7rem;
     }
   }
 </style>
@@ -374,7 +392,23 @@
   <div class="frame-bar frame-left"></div>
   <div class="frame-bar frame-right"></div>
 
+  <!-- Top-center Brand Logo -->
+  <div class="logo-container">
+    <img src="{{logo_url}}" alt="Brand Logo" class="brand-logo" style="--logo-scale: {{logo_scale}};" onerror="this.style.display='none';" />
+  </div>
 
+  <!-- Top-left Restart Link -->
+  <div class="restart-container">
+    <a class="restart-link" data-action="restart">
+      <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"></path>
+        <path d="M16 3h5v5"></path>
+        <path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"></path>
+        <path d="M8 21H3v-5"></path>
+      </svg>
+      <span>Chơi lại</span>
+    </a>
+  </div>
 
   <!-- Top-right Score display -->
   <div class="score-box-container">
@@ -406,11 +440,6 @@
         </svg>
       </button>
     </div>
-  </div>
-
-  <!-- Bottom-left Restart Link -->
-  <div class="restart-container">
-    <a class="restart-link" data-action="restart">Chơi lại</a>
   </div>
 
   <!-- Bottom-right Packshot image -->
