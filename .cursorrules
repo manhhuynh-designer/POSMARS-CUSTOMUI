@@ -58,6 +58,12 @@ Sau khi lệnh push thành công, bạn phải xuất ra kết quả duy nhất 
 
 ---
 
+## 🔍 PHÂN BIỆT 2 LOẠI MÀN HÌNH KẾT QUẢ (RESULT SCREENS)
+- **Result Game (Gameplay Result)**: Là màn hình kết quả trực tiếp của template game, **chỉ hiển thị điểm số** (`{{score}}`) và thực hiện thu thập hình ảnh/video (nút chụp ảnh `data-action="capture"`).
+- **Result Template (Voucher/Reward Screen)**: Là màn hình hiển thị phần thưởng đã được cấu hình trước (ví dụ: hiển thị `{{voucher_code}}`, `{{voucher_label}}`), sử dụng các kết quả (như `{{video_url}}`, `{{result_image}}`) từ Result Game để người dùng xem lại, tải về hoặc chia sẻ.
+
+---
+
 ## 🚨 ANTI-HALLUCINATION RULES
 - KHÔNG tạo ra các dự án npm/node_modules. Chỉ tạo file `.html` tĩnh.
 - Dừng lại và báo lỗi ngay nếu lệnh `git push` bị thất bại (vd: conflict, chưa auth).
