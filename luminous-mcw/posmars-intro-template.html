@@ -106,12 +106,105 @@
   }
 
   .intro-desc {
-    margin: 0 0 1.75rem 0;
+    margin: 0 0 1.25rem 0;
     font-size: 0.95rem;
     color: {{text_color}}; 
     opacity: 0.75;
     text-align: center;
     line-height: 1.5;
+  }
+
+  /* --- HOW TO PLAY SECTION --- */
+  .how-to-play {
+    width: 100%;
+    margin-bottom: 1.5rem;
+    background: #f8fafc;
+    border-radius: 16px;
+    border: 1px solid #e2e8f0;
+    padding: 1rem;
+    box-sizing: border-box;
+    text-align: left;
+  }
+
+  .how-to-play-header {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    border-left: 3px solid {{primary_color}};
+    padding-left: 0.5rem;
+  }
+
+  .game-assets-preview {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .asset-preview-box {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: #ffffff;
+    padding: 0.4rem 0.75rem;
+    border-radius: 12px;
+    border: 1px solid #f1f5f9;
+  }
+
+  .catcher-preview-img {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+  }
+
+  .asset-label {
+    font-size: 0.8rem;
+    color: #475569;
+    font-weight: 600;
+  }
+
+  .assets-group {
+    background: #ffffff;
+    padding: 0.6rem;
+    border-radius: 12px;
+    border: 1px solid #f1f5f9;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  .group-title {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+  }
+
+  .collect-title {
+    color: #10b981;
+  }
+
+  .avoid-title {
+    color: #ef4444;
+  }
+
+  .assets-row {
+    display: flex;
+    gap: 0.25rem;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .asset-item-img {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+    background: #f8fafc;
+    border-radius: 6px;
+    padding: 2px;
+    border: 1px solid #f1f5f9;
   }
 
   /* --- ACTION BUTTON --- */
@@ -277,6 +370,41 @@
       <!-- Tiêu đề & Mô tả -->
       <h1 class="intro-title">{{title}}</h1>
       <p class="intro-desc">{{description}}</p>
+
+      <!-- Hướng dẫn chơi trực quan -->
+      <div class="how-to-play">
+        <div class="how-to-play-header">Hướng dẫn chơi</div>
+        
+        <div class="game-assets-preview">
+          <!-- Catcher -->
+          <div class="asset-preview-box">
+            <img src="{{extra_asset_catcher_image}}" class="catcher-preview-img" onerror="this.parentElement.style.display='none';" />
+            <span class="asset-label">Di chuyển khuôn mặt để hứng quà</span>
+          </div>
+          
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem;">
+            <!-- Hứng cái này -->
+            <div class="assets-group">
+              <span class="group-title collect-title">Hứng quà (+Điểm)</span>
+              <div class="assets-row">
+                <img src="{{extra_asset_item_image_1}}" class="asset-item-img" onerror="this.style.display='none';" />
+                <img src="{{extra_asset_item_image_2}}" class="asset-item-img" onerror="this.style.display='none';" />
+                <img src="{{extra_asset_item_image_3}}" class="asset-item-img" onerror="this.style.display='none';" />
+                <img src="{{extra_asset_item_image_4}}" class="asset-item-img" onerror="this.style.display='none';" />
+              </div>
+            </div>
+            
+            <!-- Tránh cái này -->
+            <div class="assets-group">
+              <span class="group-title avoid-title">Né bom (-Điểm)</span>
+              <div class="assets-row">
+                <img src="{{extra_asset_bomb_image_1}}" class="asset-item-img" onerror="this.style.display='none';" />
+                <img src="{{extra_asset_bomb_image_2}}" class="asset-item-img" onerror="this.style.display='none';" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
       <!-- Nút Bắt đầu -->
       <button 
