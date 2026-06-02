@@ -98,7 +98,7 @@
     font-size: 1.4rem;
     font-weight: 800;
     text-align: center;
-    color: {{text_color}}; 
+    color: #0f172a; /* Dùng màu đen sẫm thay vì {{text_color}} (tránh bị trùng màu trắng của card) */
     text-transform: uppercase;
     letter-spacing: 0.02em;
   }
@@ -110,8 +110,8 @@
   .intro-desc {
     margin: 0 0 1.5rem 0;
     font-size: 0.95rem;
-    color: {{text_color}}; 
-    opacity: 0.75;
+    color: #475569; /* Dùng màu xám đậm để dễ đọc trên nền card trắng */
+    opacity: 0.9;
     text-align: center;
     line-height: 1.5;
   }
@@ -224,26 +224,29 @@
     animation: float 6s ease-in-out infinite;
   }
 
-  /* Điều chỉnh vị trí tất cả USP gom lên khu vực Banner/Logo */
+  /* Đưa các USP vào bên trong giới hạn thẻ card (tránh bị clip bởi parent overflow: hidden) */
   .usp-1 {
     width: 55px;
     top: 8%;
-    left: -25px; 
+    left: 12px; 
     animation-delay: 0s;
+    filter: drop-shadow(0 10px 15px rgba(0,0,0,0.15));
   }
 
   .usp-2 {
     width: 60px;
     top: 25%;
-    right: -25px; 
+    right: 12px; 
     animation-delay: -2s;
+    filter: drop-shadow(0 10px 15px rgba(0,0,0,0.15));
   }
 
   .usp-3 {
     width: 50px;
     top: 45%;
-    right: -15px;
+    right: 16px;
     animation-delay: -4s;
+    filter: drop-shadow(0 10px 15px rgba(0,0,0,0.15));
   }
 
   @keyframes float {
