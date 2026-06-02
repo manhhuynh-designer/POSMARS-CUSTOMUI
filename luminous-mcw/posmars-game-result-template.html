@@ -68,10 +68,8 @@
   }
 
   .next-btn {
-    background: rgba(15, 23, 42, 0.65);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.15);
+    background: {{primary_color}};
+    border: 1.5px solid rgba(255, 255, 255, 0.3);
     color: #ffffff;
     padding: 10px 20px;
     border-radius: 99px;
@@ -83,12 +81,12 @@
     align-items: center;
     gap: 6px;
     cursor: pointer;
-    box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+    box-shadow: 0 4px 16px {{primary_color}}40;
     transition: all 0.2s ease;
   }
 
   .next-btn:hover {
-    background: rgba(15, 23, 42, 0.8);
+    filter: brightness(1.1);
     transform: translateY(-1px);
   }
 
@@ -134,9 +132,9 @@
   .score-value {
     font-size: 1.35rem;
     font-weight: 900;
-    color: #ffffff;
+    color: {{primary_color}};
     line-height: 1.1;
-    text-shadow: 0 0 8px {{primary_color}}50;
+    text-shadow: 0 0 8px {{primary_color}}40;
     font-variant-numeric: tabular-nums;
     font-feature-settings: "tnum";
   }
@@ -173,41 +171,29 @@
     border-radius: 50%;
     background: #ffffff;
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
     color: #0f172a;
     transition: all 0.2s ease;
   }
 
-  .shutter-icon {
-    width: 16px;
-    height: 16px;
-    margin-bottom: 2px;
-    color: #0f172a;
-    transition: color 0.2s ease;
-  }
-
   .shutter-text {
-    font-size: 0.58rem;
+    font-size: 0.72rem;
     font-weight: 900;
     text-transform: uppercase;
-    letter-spacing: 0.02em;
-    line-height: 1;
+    letter-spacing: 0.03em;
+    line-height: 1.2;
+    text-align: center;
   }
 
   .shutter-btn:hover {
-    transform: translateX(-50%) scale(1.08);
+    transform: scale(1.08);
     box-shadow: 0 0 25px rgba(255, 255, 255, 0.6), 0 12px 40px rgba(0,0,0,0.4);
   }
 
   .shutter-btn:active .shutter-inner {
     transform: scale(0.9);
     background: {{primary_color}};
-    color: #ffffff;
-  }
-
-  .shutter-btn:active .shutter-icon {
     color: #ffffff;
   }
 
@@ -266,31 +252,6 @@
     background: rgba(15, 23, 42, 0.7);
   }
 
-  /* --- FLOATING USPS --- */
-  .floating-usps-container {
-    position: absolute;
-    inset: 0; 
-    pointer-events: none; 
-    z-index: 3; 
-  }
-
-  .usp-item {
-    position: absolute;
-    height: auto;
-    object-fit: contain;
-    filter: drop-shadow(0 6px 12px rgba(0,0,0,0.15)); 
-    animation: float 6s ease-in-out infinite;
-  }
-
-  .usp-1 { width: 45px; top: 22%; left: calc(var(--frame-thickness) + 16px); animation-delay: 0s; }
-  .usp-2 { width: 50px; top: 35%; right: calc(var(--frame-thickness) + 16px); animation-delay: -2s; }
-  .usp-3 { width: 40px; bottom: 25%; left: calc(var(--frame-thickness) + 24px); animation-delay: -4s; }
-
-  @keyframes float {
-    0%, 100% { transform: translateY(0) rotate(0deg); }
-    50% { transform: translateY(-6px) rotate(3deg); }
-  }
-
   /* Responsive Adjustments for Small Mobile Viewports */
   @media (max-width: 380px) {
     :root {
@@ -314,9 +275,6 @@
       padding: 6px 12px;
       font-size: 0.7rem;
     }
-    .usp-1 { width: 35px; }
-    .usp-2 { width: 40px; }
-    .usp-3 { width: 32px; }
   }
 </style>
 
@@ -327,12 +285,7 @@
   <div class="frame-bar frame-left"></div>
   <div class="frame-bar frame-right"></div>
 
-  <!-- Floating USPs (Luôn nổi ở trong viền card để tránh bị clip) -->
-  <div class="floating-usps-container">
-    <img src="{{extra_asset_usp1}}" class="usp-item usp-1" onerror="this.style.display='none';" />
-    <img src="{{extra_asset_usp2}}" class="usp-item usp-2" onerror="this.style.display='none';" />
-    <img src="{{extra_asset_usp3}}" class="usp-item usp-3" onerror="this.style.display='none';" />
-  </div>
+
 
   <!-- Top-left Next button -->
   <div class="next-btn-container">
@@ -357,10 +310,6 @@
   <div class="shutter-container">
     <button class="shutter-btn" data-action="capture">
       <div class="shutter-inner">
-        <svg class="shutter-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
-          <circle cx="12" cy="13" r="4"></circle>
-        </svg>
         <span class="shutter-text">Chụp ảnh</span>
       </div>
     </button>
