@@ -92,39 +92,6 @@
     line-height: 1.5;
   }
 
-  /* --- VOUCHER CARD --- */
-  .voucher-card {
-    width: 100%;
-    background: #f8fafc;
-    border: 2px dashed #cbd5e1;
-    border-radius: 16px;
-    padding: 1.5rem;
-    margin-bottom: 1.5rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.5rem;
-  }
-
-  .voucher-label { font-size: 0.75rem; font-weight: 700; color: {{primary_color}}; text-transform: uppercase; }
-  .voucher-code { font-size: 1.5rem; font-weight: 900; color: #0f172a; font-family: monospace; }
-  
-  .copy-btn {
-    padding: 0.6rem 1.5rem;
-    background: {{primary_color}};
-    color: #ffffff;
-    font-size: 0.8rem;
-    font-weight: 800;
-    text-transform: uppercase;
-    border-radius: 99px;
-    border: none;
-    cursor: pointer;
-    margin-top: 0.5rem;
-    transition: all 0.3s ease;
-  }
-
-  .copy-btn:hover { transform: scale(1.05); filter: brightness(1.1); }
-  .copy-btn:active { transform: scale(0.95); }
 
   /* --- ACTIONS --- */
   .action-btn {
@@ -236,17 +203,10 @@
       <h1 class="result-title">{{result_title}}</h1>
       <p class="result-desc">{{result_message}}</p>
 
-      <!-- Voucher Card Section -->
-      <div class="voucher-card">
-        <div class="voucher-label">{{voucher_label}}</div>
-        <div class="voucher-code">{{voucher_code}}</div>
-        <button class="copy-btn" data-action="copy">Sao chép mã</button>
-      </div>
-
       <button class="action-btn share-btn" data-action="share">Chia sẻ ngay</button>
 
-      <!-- Photo Preview (Visible if result_image or image_url is present) -->
-      <div class="photo-preview-container" style="display: none;">
+      <!-- Photo Preview Container -->
+      <div class="photo-preview-container">
         <img class="photo-preview" src="{{result_image}}" onerror="handlePhotoError(this);" />
       </div>
       
@@ -263,10 +223,8 @@
     if (imageUrl && !imageUrl.includes('{{image_url}}') && img.src !== imageUrl) {
       img.src = imageUrl;
     } else {
-      const container = img.closest('.photo-preview-container');
-      if (container) {
-        container.style.display = 'none';
-      }
+      // Fallback to a placeholder image if loading fails
+      img.src = 'https://placehold.co/600x400/f1f5f9/0f172a?text=AR+Photo';
     }
   }
 
@@ -278,26 +236,17 @@
     const hasResultImage = resultImage && !resultImage.includes('{{result_image}}');
     const hasImageUrl = imageUrl && !imageUrl.includes('{{image_url}}');
 
-    const photoContainer = document.querySelector('.photo-preview-container');
     const photoImg = document.querySelector('.photo-preview');
 
-    if (hasResultImage || hasImageUrl) {
-      if (photoContainer) photoContainer.style.display = 'block';
-      if (photoImg) {
-        if (hasResultImage) {
-          photoImg.src = resultImage;
-        } else {
-          photoImg.src = imageUrl;
-        }
+    if (photoImg) {
+      if (hasResultImage) {
+        photoImg.src = resultImage;
+      } else if (hasImageUrl) {
+        photoImg.src = imageUrl;
+      } else {
+        // Safe default placeholder for Admin edit modes
+        photoImg.src = 'https://placehold.co/600x400/f1f5f9/0f172a?text=AR+Photo';
       }
-    }
-
-    // 2. Voucher Card visibility logic
-    const voucherCode = "{{voucher_code}}".trim();
-    const hasVoucher = voucherCode && !voucherCode.includes('{{voucher_code}}');
-    const voucherCard = document.querySelector('.voucher-card');
-    if (voucherCard && !hasVoucher) {
-      voucherCard.style.display = 'none';
     }
   });
 </script>
