@@ -31,7 +31,7 @@
   .posmars-result-wrapper[data-has-photo="true"] .captured-preview {
     display: block !important;
     position: absolute;
-    bottom: calc(16.67% - 40px); /* Align bottom edge with bottom-actions-container */
+    bottom: calc(16.67% + 35px); /* Raised to sit above the bottom actions bar and avoid overlap */
     left: 20px;
     transform: rotate(-3deg);
     width: 90px;
@@ -351,7 +351,7 @@
       bottom: calc(16.67% - 32px) !important;
     }
     .posmars-result-wrapper[data-has-photo="true"] .captured-preview {
-      bottom: calc(16.67% - 32px) !important; /* Align bottom edge with bottom-actions-container */
+      bottom: calc(16.67% + 30px) !important; /* Raised to sit above the bottom actions bar and avoid overlap */
       left: 15px !important;
       width: 70px !important;
     }
