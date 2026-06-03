@@ -13,7 +13,7 @@
 
   /* --- BASE & WRAPPER --- */
   .posmars-result-wrapper {
-    position: absolute;
+    position: fixed;
     inset: 0;
     width: 100%;
     height: 100%;
@@ -31,7 +31,7 @@
   .posmars-result-wrapper[data-has-photo="true"] .captured-preview {
     display: block !important;
     position: absolute;
-    bottom: calc(var(--frame-thickness) + 160px);
+    bottom: calc(var(--frame-thickness) + 285px);
     left: 50%;
     transform: translate(-50%, 0) rotate(-3deg);
     width: 110px;
@@ -98,7 +98,7 @@
   /* --- BOTTOM CENTER ACTIONS CONTAINER --- */
   .bottom-actions-container {
     position: absolute;
-    bottom: calc(var(--frame-thickness) + 75px);
+    bottom: calc(var(--frame-thickness) + 200px);
     left: 50%;
     transform: translateX(-50%);
     z-index: 5;
@@ -226,10 +226,9 @@
   /* --- MCW CUSTOM 9X16 FRAME OVERLAY --- */
   .mcw-frame-overlay {
     position: absolute;
-    top: 0;
-    bottom: 0;
+    top: 50%;
     left: 50%;
-    transform: translateX(-50%);
+    transform: translate(-50%, -50%);
     height: 100%;
     width: auto;
     aspect-ratio: 9 / 16;
@@ -308,10 +307,10 @@
       font-size: 0.78rem;
     }
     .bottom-actions-container {
-      bottom: calc(var(--frame-thickness) + 70px) !important;
+      bottom: calc(var(--frame-thickness) + 175px) !important;
     }
     .posmars-result-wrapper[data-has-photo="true"] .captured-preview {
-      bottom: calc(var(--frame-thickness) + 140px) !important;
+      bottom: calc(var(--frame-thickness) + 255px) !important;
     }
   }
 
