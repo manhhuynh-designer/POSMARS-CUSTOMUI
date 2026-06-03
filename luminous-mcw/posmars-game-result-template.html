@@ -49,17 +49,18 @@
     border-radius: 12px;
     box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
     object-fit: cover;
-    display: none; /* Hide by default to prevent browser grey placeholder */
+    display: block;
     box-sizing: border-box;
+    background: transparent; /* Prevent grey fallback from browser broken-image rendering */
   }
 
-  .captured-preview.loaded {
-    display: block; /* Show only when loaded successfully */
-  }
-
-  /* Ẩn ảnh preview khi chưa chụp (mặc định là ảnh gif 1x1 trong suốt) */
-  .captured-preview[src*="data:image/gif"] {
-    display: none !important;
+  /* Hide preview when no valid photo is available */
+  .captured-preview.hidden-preview {
+    visibility: hidden;
+    width: 0;
+    height: 0;
+    border: none;
+    box-shadow: none;
   }
 
   @keyframes photoPop {
@@ -496,7 +497,7 @@
 
 <!-- Captured Photo Preview (AR screen capture will update here) -->
 <div class="captured-preview-wrapper" onclick="openPhotoModal()">
-  <img src="{{captured_image}}" class="captured-preview" onload="this.classList.add('loaded');" onerror="this.classList.remove('loaded');" />
+  <img id="captured-preview-img" src="{{captured_image}}" class="captured-preview hidden-preview" />
 </div>
 
 <!-- Photo Modal (Dialog lớn xem ảnh full screen) -->
@@ -508,7 +509,7 @@
 
 <script>
   function openPhotoModal() {
-    const previewImg = document.querySelector('.captured-preview');
+    const previewImg = document.getElementById('captured-preview-img');
     const modal = document.getElementById('photo-modal');
     const modalImg = document.getElementById('modal-photo-img');
     if (previewImg && modal && modalImg) {
@@ -524,5 +525,71 @@
     }
   }
 
+  /**
+   * Robust image load detection for WebView environments.
+   * Handles: sync base64 loads, async network loads, native app src injection.
+   */
+  (function() {
+    var img = document.getElementById('captured-preview-img');
+    if (!img) return;
 
+    function isValidSrc(src) {
+      if (!src) return false;
+      // Reject template placeholders and transparent gif fallbacks
+      if (src.indexOf('{{') !== -1) return false;
+      if (src.indexOf('data:image/gif') !== -1) return false;
+      if (src === '' || src === 'about:blank') return false;
+      return true;
+    }
+
+    function showPreview() {
+      img.classList.remove('hidden-preview');
+    }
+
+    function hidePreview() {
+      img.classList.add('hidden-preview');
+    }
+
+    function checkAndShow() {
+      if (isValidSrc(img.src) && img.complete && img.naturalWidth > 0) {
+        showPreview();
+      } else if (!isValidSrc(img.src)) {
+        hidePreview();
+      }
+    }
+
+    // Attach standard load/error listeners (works for async loads)
+    img.addEventListener('load', function() {
+      if (isValidSrc(img.src) && img.naturalWidth > 0) {
+        showPreview();
+      }
+    });
+
+    img.addEventListener('error', function() {
+      hidePreview();
+    });
+
+    // Check immediately in case image already loaded synchronously (base64)
+    checkAndShow();
+
+    // MutationObserver: detect when native app changes src attribute
+    if (typeof MutationObserver !== 'undefined') {
+      var observer = new MutationObserver(function(mutations) {
+        for (var i = 0; i < mutations.length; i++) {
+          if (mutations[i].attributeName === 'src') {
+            if (isValidSrc(img.src)) {
+              // For base64, img.complete may already be true
+              if (img.complete && img.naturalWidth > 0) {
+                showPreview();
+              }
+              // Otherwise the 'load' event listener above will handle it
+            } else {
+              hidePreview();
+            }
+          }
+        }
+      });
+      observer.observe(img, { attributes: true, attributeFilter: ['src'] });
+    }
+  })();
 </script>
