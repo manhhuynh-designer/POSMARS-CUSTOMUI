@@ -24,11 +24,11 @@
   }
 
   /* --- CAPTURED PREVIEW --- */
-  .captured-preview {
+  .captured-preview-wrapper {
     display: none !important;
   }
 
-  .posmars-result-wrapper[data-has-photo="true"] .captured-preview {
+  .posmars-result-wrapper[data-has-photo="true"] .captured-preview-wrapper {
     display: block !important;
     position: absolute;
     bottom: calc(16.67% + 35px); /* Raised to sit above the bottom actions bar and avoid overlap */
@@ -37,14 +37,21 @@
     width: 90px;
     height: auto;
     aspect-ratio: 9 / 16;
+    z-index: 4; /* Below buttons (5), above frame (2) and live feed (1) */
+    pointer-events: auto !important;
+    cursor: pointer;
+    animation: photoPop 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+  }
+
+  .captured-preview {
+    width: 100%;
+    height: 100%;
     border: 4px solid #ffffff;
     border-radius: 12px;
     box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
-    z-index: 4; /* Below buttons (5), above frame (2) and live feed (1) */
-    pointer-events: auto;
-    cursor: pointer;
     object-fit: cover;
-    animation: photoPop 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+    display: block;
+    box-sizing: border-box;
   }
 
   /* Ẩn ảnh preview khi chưa chụp (mặc định là ảnh gif 1x1 trong suốt) */
@@ -59,7 +66,7 @@
 
   /* --- DYNAMIC PHOTO STATE MANAGEMENT --- */
   /* Trạng thái 1: Chưa chụp ảnh -> Ẩn ảnh preview */
-  .posmars-result-wrapper[data-has-photo="false"] .captured-preview {
+  .posmars-result-wrapper[data-has-photo="false"] .captured-preview-wrapper {
     display: none !important;
   }
 
@@ -350,7 +357,7 @@
     .bottom-actions-container {
       bottom: calc(16.67% - 32px) !important;
     }
-    .posmars-result-wrapper[data-has-photo="true"] .captured-preview {
+    .posmars-result-wrapper[data-has-photo="true"] .captured-preview-wrapper {
       bottom: calc(16.67% + 30px) !important; /* Raised to sit above the bottom actions bar and avoid overlap */
       left: 15px !important;
       width: 70px !important;
@@ -550,7 +557,9 @@
   </div>
 
   <!-- Captured Photo Preview (AR screen capture will update here) -->
-  <img src="{{captured_image}}" class="captured-preview" onclick="openPhotoModal()" onerror="this.style.display='none';" />
+  <div class="captured-preview-wrapper" onclick="openPhotoModal()">
+    <img src="{{captured_image}}" class="captured-preview" onerror="this.style.display='none';" />
+  </div>
 
   <!-- Top-left Restart Link -->
   <div class="restart-container">
