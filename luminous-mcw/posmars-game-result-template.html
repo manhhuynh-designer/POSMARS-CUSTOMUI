@@ -62,40 +62,7 @@
     display: none !important;
   }
 
-  /* --- BORDER FRAME (Robust 4-bar background to support any CSS background type) --- */
-  .frame-bar {
-    position: absolute;
-    background: {{panel_background}};
-    z-index: 2;
-  }
-
-  .frame-top {
-    top: 0;
-    left: 0;
-    right: 0;
-    height: var(--frame-thickness);
-  }
-
-  .frame-bottom {
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: var(--frame-thickness);
-  }
-
-  .frame-left {
-    top: 0;
-    bottom: 0;
-    left: 0;
-    width: var(--frame-thickness);
-  }
-
-  .frame-right {
-    top: 0;
-    bottom: 0;
-    right: 0;
-    width: var(--frame-thickness);
-  }
+  /* Solid border frame removed */
 
 
 
@@ -267,21 +234,15 @@
     height: 14px;
   }
 
-  /* --- BOTTOM RIGHT: PACKSHOT --- */
-  .packshot-container {
+  /* --- MCW CUSTOM 9X16 FRAME OVERLAY --- */
+  .mcw-frame-overlay {
     position: absolute;
-    bottom: 6px;
-    right: 6px;
-    z-index: 3; /* Lower than buttons (5), higher than frame (2) */
-    pointer-events: auto;
-  }
-
-  .packshot-img {
-    width: 75px;
-    height: auto;
-    max-height: 110px;
-    object-fit: contain;
-    filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.25));
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: fill;
+    z-index: 2;
+    pointer-events: none;
   }
 
   /* --- TOP LEFT: RESTART --- */
@@ -373,9 +334,6 @@
     .score-value {
       font-size: 1.15rem;
     }
-    .packshot-img {
-      width: 60px;
-    }
     .shutter-btn {
       width: 64px;
       height: 64px;
@@ -452,11 +410,8 @@
   <!-- Captured Photo Preview (AR screen capture will update here) -->
   <img src="{{captured_image}}" class="captured-preview" onclick="openPhotoModal()" onerror="this.style.display='none';" />
 
-  <!-- Border Frame bars -->
-  <div class="frame-bar frame-top"></div>
-  <div class="frame-bar frame-bottom"></div>
-  <div class="frame-bar frame-left"></div>
-  <div class="frame-bar frame-right"></div>
+  <!-- MCW Custom 9x16 Frame Overlay -->
+  <img src="{{extra_asset_mcw_frame}}" class="mcw-frame-overlay" onerror="this.style.display='none';" />
 
   <!-- Top-center Brand Logo -->
   <div class="logo-container">
@@ -508,10 +463,6 @@
     </div>
   </div>
 
-  <!-- Bottom-right Packshot image -->
-  <div class="packshot-container">
-    <img src="{{extra_asset_packshot}}" alt="Packshot Product" class="packshot-img" onerror="this.style.display='none';" />
-  </div>
 </div>
 
 <!-- Photo Modal (Dialog lớn xem ảnh full screen) -->
