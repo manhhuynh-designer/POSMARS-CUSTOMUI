@@ -123,20 +123,84 @@
   /* --- PHOTO PREVIEW --- */
   .photo-preview-container {
     width: 100%;
-    aspect-ratio: 16 / 9;
+    max-width: 250px;
+    aspect-ratio: 9 / 16;
     background: #0f172a;
     border-radius: 16px;
     overflow: hidden;
     position: relative;
-    margin-bottom: 1.25rem;
+    margin: 0 auto 1.25rem auto;
     border: 1px solid #e2e8f0;
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    cursor: pointer;
   }
 
   .photo-preview {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
+  }
+
+  /* --- PHOTO ZOOM MODAL --- */
+  .photo-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    cursor: pointer;
+    pointer-events: auto !important;
+  }
+
+  .photo-modal-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.9);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+
+  .photo-modal-content {
+    position: relative;
+    max-width: 90%;
+    max-height: 85vh;
+    object-fit: contain;
+    border-radius: 12px;
+    border: 3px solid #ffffff;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    z-index: 10;
+    animation: photoModalScale 0.25s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  }
+
+  @keyframes photoModalScale {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
+  }
+
+  .photo-modal-close {
+    position: absolute;
+    top: 24px;
+    right: 24px;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: #ffffff;
+    font-size: 24px;
+    line-height: 1;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 20;
+    transition: background 0.2s;
+  }
+
+  .photo-modal-close:hover {
+    background: rgba(239, 68, 68, 0.9);
   }
 
   .restart-link {
@@ -204,7 +268,7 @@
       <p class="result-desc">{{result_message}}</p>
 
       <!-- Photo Preview Container -->
-      <div class="photo-preview-container">
+      <div class="photo-preview-container" onclick="openPhotoModal()">
         <img class="photo-preview" src="{{result_image}}" onerror="handlePhotoError(this);" />
       </div>
 
@@ -215,9 +279,33 @@
       <a class="restart-link" data-action="restart">Chơi lại</a>
     </div>
   </div>
+
+  <!-- Photo Modal (Dialog lớn xem ảnh full screen) -->
+  <div id="photo-modal" class="photo-modal" style="display: none;" onclick="closePhotoModal()">
+    <div class="photo-modal-backdrop"></div>
+    <img id="modal-photo-img" class="photo-modal-content" src="" />
+    <button class="photo-modal-close" onclick="closePhotoModal()">&times;</button>
+  </div>
 </div>
 
 <script>
+  function openPhotoModal() {
+    const previewImg = document.querySelector('.photo-preview');
+    const modal = document.getElementById('photo-modal');
+    const modalImg = document.getElementById('modal-photo-img');
+    if (previewImg && modal && modalImg) {
+      modalImg.src = previewImg.src;
+      modal.style.display = 'flex';
+    }
+  }
+
+  function closePhotoModal() {
+    const modal = document.getElementById('photo-modal');
+    if (modal) {
+      modal.style.display = 'none';
+    }
+  }
+
   function handlePhotoError(img) {
     const imageUrl = "{{image_url}}".trim();
     if (imageUrl && !imageUrl.includes('{{image_url}}') && img.src !== imageUrl) {

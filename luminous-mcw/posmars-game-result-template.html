@@ -42,6 +42,7 @@
     box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
     z-index: 4; /* Below buttons (5), above frame (2) and live feed (1) */
     pointer-events: auto;
+    cursor: pointer;
     object-fit: cover;
     animation: photoPop 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
   }
@@ -326,6 +327,7 @@
     justify-content: center;
     padding: 1rem;
     cursor: pointer;
+    pointer-events: auto !important;
   }
 
   .photo-modal-backdrop {
