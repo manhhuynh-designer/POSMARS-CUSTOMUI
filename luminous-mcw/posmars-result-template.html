@@ -212,10 +212,7 @@
     cursor: pointer;
   }
 
-  /* Control display of replay button based on can_replay state */
-  .posmars-result-wrapper[data-can-replay="false"] .restart-link {
-    display: none !important;
-  }
+
 
   /* --- FLOATING USPS --- */
   .floating-usps-container {
@@ -253,7 +250,7 @@
   }
 </style>
 
-<div class="posmars-result-wrapper" style="background: {{main_background}};" data-can-replay="{{can_replay}}">
+<div class="posmars-result-wrapper" style="background: {{main_background}};">
   <div class="posmars-result-panel" style="background: {{panel_background}};">
     
     <div class="floating-usps-container">
@@ -281,7 +278,7 @@
       
       <button class="action-btn" style="background:transparent; color:#64748b; border: 1px solid #e2e8f0;" data-action="download">Tải ảnh</button>
       
-      <a class="restart-link" data-action="restart">{{replay_button_text}}</a>
+      <a class="restart-link" data-action="restart">Chơi lại</a>
     </div>
   </div>
 
