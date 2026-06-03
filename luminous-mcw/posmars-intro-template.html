@@ -317,8 +317,11 @@
 </div>
 
 <script>
-  // Script hỗ trợ debug các tài sản nổi (USP)
+  // Script hỗ trợ debug các tài sản nổi (USP) và reset trạng thái lượt chơi
   document.addEventListener("DOMContentLoaded", function() {
+    // Reset session storage flag when loading the intro screen for a new game session
+    sessionStorage.removeItem('posmars_result_shown');
+
     console.log("=== POSMARS FLOATING ASSETS DEBUG ===");
     console.log("USP 1 URL:", "{{extra_asset_usp1}}");
     console.log("USP 2 URL:", "{{extra_asset_usp2}}");

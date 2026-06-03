@@ -382,13 +382,13 @@
       </div>
       
       <!-- Checkbox điều khoản -->
-      <label class="lead-consent-wrapper" for="consent">
+      <div class="lead-consent-wrapper">
         <input type="checkbox" id="consent" />
         <div class="lead-consent-text">
-          {{consent_text}} <br>
+          <label for="consent" style="cursor: pointer; display: inline;">{{consent_text}}</label> <br>
           <a href="{{privacy_policy_link}}">Xem chính sách bảo mật</a>
         </div>
-      </label>
+      </div>
       
       <!-- Nút Submit -->
       <button class="lead-submit-btn" data-action="submit">

@@ -31,7 +31,7 @@
   .posmars-result-wrapper[data-has-photo="true"] .captured-preview {
     display: block !important;
     position: absolute;
-    bottom: calc(var(--frame-thickness) + 40px);
+    bottom: calc(var(--frame-thickness) + 65px);
     left: 20px;
     transform: rotate(-3deg);
     width: 90px;
@@ -81,7 +81,7 @@
   /* --- BOTTOM CENTER ACTIONS CONTAINER --- */
   .bottom-actions-container {
     position: absolute;
-    bottom: calc(var(--frame-thickness) + 40px);
+    bottom: calc(var(--frame-thickness) + 65px);
     left: 50%;
     transform: translateX(-50%);
     z-index: 5;
@@ -253,6 +253,49 @@
     display: none !important;
   }
 
+  /* --- TOP RIGHT: SWITCH CAMERA --- */
+  .switch-camera-container {
+    position: absolute;
+    top: calc(var(--frame-thickness) + 16px);
+    right: calc(var(--frame-thickness) + 16px);
+    z-index: 5;
+    pointer-events: auto;
+  }
+
+  .switch-camera-btn {
+    background: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1.5px solid rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+    padding: 8px;
+    border-radius: 50%;
+    width: 38px;
+    height: 38px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.25);
+    box-sizing: border-box;
+  }
+
+  .switch-camera-btn:hover {
+    transform: scale(1.05);
+    background: rgba(15, 23, 42, 0.8);
+    border-color: rgba(255, 255, 255, 0.35);
+  }
+
+  .switch-camera-btn:active {
+    transform: scale(0.95);
+  }
+
+  /* Control display of switch camera button - only visible in capture mode (data-has-photo="false") */
+  .posmars-result-wrapper[data-has-photo="true"] .switch-camera-container {
+    display: none !important;
+  }
+
   /* Brand logo container styles removed as logo is printed on the frame */
 
   /* Responsive Adjustments for Small Mobile Viewports */
@@ -269,6 +312,16 @@
       font-size: 0.7rem;
     }
 
+    .switch-camera-container {
+      top: calc(var(--frame-thickness) + 10px);
+      right: calc(var(--frame-thickness) + 10px);
+    }
+    .switch-camera-btn {
+      width: 32px;
+      height: 32px;
+      padding: 6px;
+    }
+
     .shutter-btn {
       width: 64px;
       height: 64px;
@@ -278,10 +331,10 @@
       font-size: 0.78rem;
     }
     .bottom-actions-container {
-      bottom: calc(var(--frame-thickness) + 30px) !important;
+      bottom: calc(var(--frame-thickness) + 55px) !important;
     }
     .posmars-result-wrapper[data-has-photo="true"] .captured-preview {
-      bottom: calc(var(--frame-thickness) + 25px) !important;
+      bottom: calc(var(--frame-thickness) + 50px) !important;
       left: 15px !important;
       width: 70px !important;
     }
@@ -351,34 +404,32 @@
 
   /* --- START NOTIFICATION OVERLAY --- */
   .start-notification {
+    display: none !important; /* Hidden by default to prevent flashing on load */
     position: fixed;
     inset: 0;
     z-index: 999;
-    display: flex;
     align-items: center;
     justify-content: center;
     background: rgba(15, 23, 42, 0.5);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
-    
-    /* CSS animation sequence to display for 3s and then fade out */
-    animation: fadeOutSequence 3.5s forwards;
     pointer-events: auto;
+    opacity: 0;
+    visibility: hidden;
+  }
+
+  /* Only shown and animated via JS adding 'show' class */
+  .start-notification.show {
+    display: flex !important;
+    opacity: 1;
+    visibility: visible;
+    animation: fadeOutSequence 3.5s forwards;
   }
 
   .start-notification.fade-out {
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
-  }
-
-  /* Override: Do not show start popup notification if user has already taken a photo */
-  .posmars-result-wrapper[data-has-photo="true"] .start-notification {
-    display: none !important;
-    opacity: 0 !important;
-    visibility: hidden !important;
-    pointer-events: none !important;
-    animation: none !important;
   }
 
   @keyframes fadeOutSequence {
@@ -497,6 +548,17 @@
     </a>
   </div>
 
+  <!-- Top-right Switch Camera Button -->
+  <div class="switch-camera-container">
+    <button class="switch-camera-btn" data-action="switch_camera" title="Đổi camera">
+      <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width: 18px; height: 18px;">
+        <path d="M2 8a2 2 0 0 1 2-2h3l2-3h6l2 3h3a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2Z"/>
+        <path d="m8 14 4-4 4 4"/>
+        <path d="m16 14-4 4-4-4"/>
+      </svg>
+    </button>
+  </div>
+
   <!-- MCW Frame Overlay -->
   <img src="{{extra_asset_mcw_frame}}" alt="Frame" class="mcw-frame-overlay" onerror="this.style.display='none';" />
 
@@ -551,11 +613,36 @@
     }
   }
 
-  // Run the fade-out timer immediately since the elements are already parsed above this script
-  const notification = document.getElementById('start-notification');
-  if (notification) {
-    setTimeout(() => {
-      notification.classList.add('fade-out');
-    }, 3000);
-  }
+  // Dynamic control of start-notification visibility
+  document.addEventListener('DOMContentLoaded', () => {
+    const notification = document.getElementById('start-notification');
+    const wrapper = document.querySelector('.posmars-result-wrapper');
+    
+    if (notification && wrapper) {
+      const hasPhoto = wrapper.getAttribute('data-has-photo') === 'true';
+      const alreadyShown = sessionStorage.getItem('posmars_result_shown') === 'true';
+
+      if (!hasPhoto && !alreadyShown) {
+        // Show and animate the notification
+        notification.classList.add('show');
+        sessionStorage.setItem('posmars_result_shown', 'true');
+        
+        // Add fade-out class after 3 seconds
+        setTimeout(() => {
+          notification.classList.add('fade-out');
+        }, 3000);
+      } else {
+        // Forcibly remove from DOM to prevent any mobile webview flash issues
+        notification.remove();
+      }
+    }
+
+    // Reset session storage when clicking restart
+    const restartLink = document.querySelector('.restart-link');
+    if (restartLink) {
+      restartLink.addEventListener('click', () => {
+        sessionStorage.removeItem('posmars_result_shown');
+      });
+    }
+  });
 </script>
