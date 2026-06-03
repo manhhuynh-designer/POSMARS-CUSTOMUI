@@ -225,15 +225,17 @@
 
   /* --- MCW CUSTOM 9X16 FRAME OVERLAY --- */
   .mcw-frame-overlay {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    height: 100%;
-    width: auto;
-    aspect-ratio: 9 / 16;
-    z-index: 2;
-    pointer-events: none;
+    position: absolute !important;
+    top: 0 !important;
+    bottom: 0 !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    height: 100% !important;
+    width: 56.25vh !important;
+    width: 56.25dvh !important;
+    z-index: 2 !important;
+    pointer-events: none !important;
+    object-fit: cover !important;
   }
 
   /* --- TOP LEFT: RESTART --- */
