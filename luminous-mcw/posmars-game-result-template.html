@@ -67,24 +67,15 @@
 
 
 
-  /* --- TOP CENTER: BRAND LOGO --- */
-  .brand-logo-container {
+  /* --- MCW FRAME OVERLAY --- */
+  .mcw-frame-overlay {
     position: absolute;
-    top: calc(var(--frame-thickness) + 16px);
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 5;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 2; /* below buttons (5), above live feed */
     pointer-events: none;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .hud-logo {
-    height: 40px;
-    max-width: 140px;
-    object-fit: contain;
-    filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.35));
   }
 
   /* --- BOTTOM CENTER ACTIONS CONTAINER --- */
@@ -277,10 +268,7 @@
       padding: 6px 12px;
       font-size: 0.7rem;
     }
-    .hud-logo {
-      height: 32px;
-      max-width: 110px;
-    }
+
     .shutter-btn {
       width: 64px;
       height: 64px;
@@ -509,10 +497,8 @@
     </a>
   </div>
 
-  <!-- Top Center Brand Logo -->
-  <div class="brand-logo-container">
-    <img src="{{logo_url}}" alt="Logo" class="hud-logo" onerror="this.style.display='none';" />
-  </div>
+  <!-- MCW Frame Overlay -->
+  <img src="{{extra_asset_mcw_frame}}" alt="Frame" class="mcw-frame-overlay" onerror="this.style.display='none';" />
 
   <!-- Bottom Actions Container (Capture / Shutter in State 1, Recapture + Next in State 2) -->
   <div class="bottom-actions-container">
