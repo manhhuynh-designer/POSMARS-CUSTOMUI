@@ -380,15 +380,46 @@
     background: rgba(15, 23, 42, 0.5);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
-    transition: opacity 0.5s ease, visibility 0.5s ease;
-    opacity: 1;
-    visibility: visible;
+    
+    /* CSS animation sequence to display for 3s and then fade out */
+    animation: fadeOutSequence 3.5s forwards;
+    pointer-events: auto;
   }
 
   .start-notification.fade-out {
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
+  }
+
+  /* Override: Do not show start popup notification if user has already taken a photo */
+  .posmars-result-wrapper[data-has-photo="true"] .start-notification {
+    display: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+  }
+
+  @keyframes fadeOutSequence {
+    0% {
+      opacity: 1;
+      visibility: visible;
+    }
+    85% {
+      opacity: 1;
+      visibility: visible;
+    }
+    99% {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+    100% {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      display: none !important;
+    }
   }
 
   .notification-content {
