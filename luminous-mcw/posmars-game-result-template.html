@@ -253,11 +253,11 @@
     display: none !important;
   }
 
-  /* --- TOP RIGHT: SWITCH CAMERA --- */
+  /* --- BOTTOM RIGHT: SWITCH CAMERA --- */
   .switch-camera-container {
     position: absolute;
-    top: calc(var(--frame-thickness) + 16px);
-    right: calc(var(--frame-thickness) + 16px);
+    bottom: calc(16.67% - 40px); /* Align bottom edge with bottom-actions-container */
+    right: 20px;
     z-index: 5;
     pointer-events: auto;
   }
@@ -338,8 +338,9 @@
     }
 
     .switch-camera-container {
-      top: calc(var(--frame-thickness) + 10px);
-      right: calc(var(--frame-thickness) + 10px);
+      bottom: calc(16.67% - 32px) !important; /* Align bottom edge with bottom-actions-container */
+      right: 15px !important;
+      top: auto !important;
     }
     .switch-camera-btn {
       width: 32px;
