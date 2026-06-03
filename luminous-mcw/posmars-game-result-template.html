@@ -28,7 +28,7 @@
     display: none !important;
   }
 
-  .posmars-result-wrapper[data-has-photo="true"] .captured-preview-wrapper {
+  .posmars-result-wrapper[data-has-photo="true"] ~ .captured-preview-wrapper {
     display: block !important;
     position: absolute;
     bottom: calc(16.67% + 35px); /* Raised to sit above the bottom actions bar and avoid overlap */
@@ -66,7 +66,7 @@
 
   /* --- DYNAMIC PHOTO STATE MANAGEMENT --- */
   /* Trạng thái 1: Chưa chụp ảnh -> Ẩn ảnh preview */
-  .posmars-result-wrapper[data-has-photo="false"] .captured-preview-wrapper {
+  .posmars-result-wrapper[data-has-photo="false"] ~ .captured-preview-wrapper {
     display: none !important;
   }
 
@@ -357,7 +357,7 @@
     .bottom-actions-container {
       bottom: calc(16.67% - 32px) !important;
     }
-    .posmars-result-wrapper[data-has-photo="true"] .captured-preview-wrapper {
+    .posmars-result-wrapper[data-has-photo="true"] ~ .captured-preview-wrapper {
       bottom: calc(16.67% + 30px) !important; /* Raised to sit above the bottom actions bar and avoid overlap */
       left: 15px !important;
       width: 70px !important;
@@ -556,11 +556,6 @@
     </div>
   </div>
 
-  <!-- Captured Photo Preview (AR screen capture will update here) -->
-  <div class="captured-preview-wrapper" onclick="openPhotoModal()">
-    <img src="{{captured_image}}" class="captured-preview" onerror="this.style.display='none';" />
-  </div>
-
   <!-- Top-left Restart Link -->
   <div class="restart-container">
     <a class="restart-link" data-action="restart">
@@ -617,6 +612,11 @@
     </div>
   </div>
 
+</div>
+
+<!-- Captured Photo Preview (AR screen capture will update here) -->
+<div class="captured-preview-wrapper" onclick="openPhotoModal()">
+  <img src="{{captured_image}}" class="captured-preview" onerror="this.style.display='none';" />
 </div>
 
 <!-- Photo Modal (Dialog lớn xem ảnh full screen) -->
