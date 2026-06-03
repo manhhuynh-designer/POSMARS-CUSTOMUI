@@ -499,7 +499,7 @@
   <!-- Start Notification Overlay (Fades out after 3s) -->
   <div id="start-notification" class="start-notification">
     <div class="notification-content">
-      <div class="notification-title">Chúc mừng bạn!</div>
+      <div class="notification-title">{{result_title_text}}</div>
       <div class="notification-text">
         Bạn đã tẩy trang sạch <span class="highlight-score">{{score}}%</span>
       </div>
@@ -548,7 +548,7 @@
         <span>Chụp lại</span>
       </button>
       <button class="action-btn-pill next-btn-bottom" data-action="next">
-        <span>Tiếp tục</span>
+        <span>{{result_button_text}}</span>
         <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
           <path d="M5 12h14"></path>
           <path d="m12 5 7 7-7 7"></path>
