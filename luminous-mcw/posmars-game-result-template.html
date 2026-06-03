@@ -31,7 +31,7 @@
   .posmars-result-wrapper[data-has-photo="true"] .captured-preview {
     display: block !important;
     position: absolute;
-    bottom: calc(16.67% - 80px);
+    bottom: calc(16.67% - 40px); /* Align bottom edge with bottom-actions-container */
     left: 20px;
     transform: rotate(-3deg);
     width: 90px;
@@ -321,10 +321,6 @@
     line-height: 1;
   }
 
-  .posmars-result-wrapper[data-has-photo="true"] .score-display-container {
-    display: none !important;
-  }
-
   /* Brand logo container styles removed as logo is printed on the frame */
 
   /* Responsive Adjustments for Small Mobile Viewports */
@@ -363,7 +359,7 @@
       bottom: calc(16.67% - 32px) !important;
     }
     .posmars-result-wrapper[data-has-photo="true"] .captured-preview {
-      bottom: calc(16.67% - 62px) !important;
+      bottom: calc(16.67% - 32px) !important; /* Align bottom edge with bottom-actions-container */
       left: 15px !important;
       width: 70px !important;
     }
