@@ -67,33 +67,24 @@
 
 
 
-  /* --- TOP RIGHT: SCORE BOX (Aligns on top of frame's circle background) --- */
-  .score-box-container {
+  /* --- TOP CENTER: BRAND LOGO --- */
+  .brand-logo-container {
     position: absolute;
-    top: calc(var(--frame-thickness) + 26px);
-    right: calc(var(--frame-thickness) + 28px);
+    top: calc(var(--frame-thickness) + 16px);
+    left: 50%;
+    transform: translateX(-50%);
     z-index: 5;
     pointer-events: none;
-  }
-
-  .score-box {
-    background: transparent;
-    border: none;
-    box-shadow: none;
-    padding: 0;
     display: flex;
-    align-items: center;
     justify-content: center;
+    align-items: center;
   }
 
-  .score-value {
-    font-size: 1.85rem;
-    font-weight: 900;
-    color: #ffffff;
-    line-height: 1;
-    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
-    font-variant-numeric: tabular-nums;
-    font-feature-settings: "tnum";
+  .hud-logo {
+    height: 40px;
+    max-width: 140px;
+    object-fit: contain;
+    filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.35));
   }
 
   /* --- BOTTOM CENTER ACTIONS CONTAINER --- */
@@ -224,16 +215,7 @@
     height: 14px;
   }
 
-  /* --- MCW CUSTOM 9X16 FRAME OVERLAY --- */
-  .mcw-frame-overlay {
-    position: absolute !important;
-    inset: 0 !important;
-    width: 100% !important;
-    height: 100% !important;
-    z-index: 1 !important;
-    pointer-events: none !important;
-    object-fit: cover !important;
-  }
+
 
   /* --- TOP LEFT: RESTART --- */
   .restart-container {
@@ -291,16 +273,13 @@
       top: calc(var(--frame-thickness) + 10px);
       left: calc(var(--frame-thickness) + 10px);
     }
-    .score-box-container {
-      top: calc(var(--frame-thickness) + 16px);
-      right: calc(var(--frame-thickness) + 20px);
-    }
     .restart-link {
       padding: 6px 12px;
       font-size: 0.7rem;
     }
-    .score-value {
-      font-size: 1.6rem;
+    .hud-logo {
+      height: 32px;
+      max-width: 110px;
     }
     .shutter-btn {
       width: 64px;
@@ -510,9 +489,6 @@
   <!-- Captured Photo Preview (AR screen capture will update here) -->
   <img src="{{captured_image}}" class="captured-preview" onclick="openPhotoModal()" onerror="this.style.display='none';" />
 
-  <!-- MCW Custom 9x16 Frame Overlay -->
-  <img src="{{extra_asset_mcw_frame}}" class="mcw-frame-overlay" onerror="this.style.display='none';" />
-
   <!-- Top-left Restart Link -->
   <div class="restart-container">
     <a class="restart-link" data-action="restart">
@@ -526,11 +502,9 @@
     </a>
   </div>
 
-  <!-- Top-right Score display (Simplified to overlay number directly on top of frame circle background) -->
-  <div class="score-box-container">
-    <div class="score-box">
-      <span class="score-value">{{score}}</span>
-    </div>
+  <!-- Top Center Brand Logo -->
+  <div class="brand-logo-container">
+    <img src="{{logo_url}}" alt="Logo" class="hud-logo" onerror="this.style.display='none';" />
   </div>
 
   <!-- Bottom Actions Container (Capture / Shutter in State 1, Recapture + Next in State 2) -->
