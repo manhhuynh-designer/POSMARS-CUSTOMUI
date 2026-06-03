@@ -31,7 +31,7 @@
   .posmars-result-wrapper[data-has-photo="true"] .captured-preview {
     display: block !important;
     position: absolute;
-    bottom: calc(var(--frame-thickness) + 85px);
+    bottom: calc(var(--frame-thickness) + 160px);
     left: 50%;
     transform: translate(-50%, 0) rotate(-3deg);
     width: 110px;
@@ -98,7 +98,7 @@
   /* --- BOTTOM CENTER ACTIONS CONTAINER --- */
   .bottom-actions-container {
     position: absolute;
-    bottom: calc(var(--frame-thickness) + 20px);
+    bottom: calc(var(--frame-thickness) + 75px);
     left: 50%;
     transform: translateX(-50%);
     z-index: 5;
@@ -305,6 +305,12 @@
     .action-btn-pill {
       padding: 8px 14px;
       font-size: 0.78rem;
+    }
+    .bottom-actions-container {
+      bottom: calc(var(--frame-thickness) + 70px) !important;
+    }
+    .posmars-result-wrapper[data-has-photo="true"] .captured-preview {
+      bottom: calc(var(--frame-thickness) + 140px) !important;
     }
   }
 
