@@ -226,10 +226,12 @@
   /* --- MCW CUSTOM 9X16 FRAME OVERLAY --- */
   .mcw-frame-overlay {
     position: absolute;
-    inset: 0;
-    width: 100%;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
     height: 100%;
-    object-fit: fill;
+    width: auto;
     z-index: 2;
     pointer-events: none;
   }
@@ -541,13 +543,11 @@
     }
   }
 
-  document.addEventListener('DOMContentLoaded', () => {
-    // Fade out the startup notification after 3 seconds
-    const notification = document.getElementById('start-notification');
-    if (notification) {
-      setTimeout(() => {
-        notification.classList.add('fade-out');
-      }, 3000);
-    }
-  });
+  // Run the fade-out timer immediately since the elements are already parsed above this script
+  const notification = document.getElementById('start-notification');
+  if (notification) {
+    setTimeout(() => {
+      notification.classList.add('fade-out');
+    }, 3000);
+  }
 </script>
