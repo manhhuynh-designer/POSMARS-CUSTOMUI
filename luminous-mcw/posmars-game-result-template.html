@@ -31,7 +31,7 @@
   .posmars-result-wrapper[data-has-photo="true"] .captured-preview {
     display: block !important;
     position: absolute;
-    bottom: calc(var(--frame-thickness) + 65px);
+    bottom: calc(16.67% - 80px);
     left: 20px;
     transform: rotate(-3deg);
     width: 90px;
@@ -81,7 +81,7 @@
   /* --- BOTTOM CENTER ACTIONS CONTAINER --- */
   .bottom-actions-container {
     position: absolute;
-    bottom: calc(var(--frame-thickness) + 65px);
+    bottom: calc(16.67% - 40px);
     left: 50%;
     transform: translateX(-50%);
     z-index: 5;
@@ -296,6 +296,35 @@
     display: none !important;
   }
 
+  /* --- TOP RIGHT SCORE DISPLAY --- */
+  .score-display-container {
+    position: absolute;
+    top: 14.32%;
+    left: 88.43%;
+    transform: translate(-50%, -50%);
+    z-index: 3; /* above frame overlay, below modals */
+    pointer-events: none;
+  }
+
+  .score-display-value {
+    font-size: 7.6vw;
+    font-weight: 900;
+    color: #312937;
+    /* Soft text shadow to match photo_score_shadow_color (#feecf1) */
+    text-shadow: 
+      -2px -2px 0 #feecf1,  
+       2px -2px 0 #feecf1,
+      -2px  2px 0 #feecf1,
+       2px  2px 0 #feecf1,
+       0 0 15px #feecf1;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1;
+  }
+
+  .posmars-result-wrapper[data-has-photo="true"] .score-display-container {
+    display: none !important;
+  }
+
   /* Brand logo container styles removed as logo is printed on the frame */
 
   /* Responsive Adjustments for Small Mobile Viewports */
@@ -331,10 +360,10 @@
       font-size: 0.78rem;
     }
     .bottom-actions-container {
-      bottom: calc(var(--frame-thickness) + 55px) !important;
+      bottom: calc(16.67% - 32px) !important;
     }
     .posmars-result-wrapper[data-has-photo="true"] .captured-preview {
-      bottom: calc(var(--frame-thickness) + 50px) !important;
+      bottom: calc(16.67% - 62px) !important;
       left: 15px !important;
       width: 70px !important;
     }
@@ -546,6 +575,11 @@
       </svg>
       <span>{{replay_button_text}}</span>
     </a>
+  </div>
+
+  <!-- Top-right Score Display -->
+  <div class="score-display-container">
+    <span class="score-display-value">{{score}}%</span>
   </div>
 
   <!-- Top-right Switch Camera Button -->
