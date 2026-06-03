@@ -275,6 +275,11 @@
     transform: scale(0.95);
   }
 
+  /* Control display of replay button based on can_replay state */
+  .posmars-result-wrapper[data-can-replay="false"] .restart-container {
+    display: none !important;
+  }
+
   /* Brand logo container styles removed as logo is printed on the frame */
 
   /* Responsive Adjustments for Small Mobile Viewports */
@@ -490,7 +495,7 @@
   }
 </style>
 
-<div class="posmars-result-wrapper" data-has-photo="{{has_captured_image}}">
+<div class="posmars-result-wrapper" data-has-photo="{{has_captured_image}}" data-can-replay="{{can_replay}}">
   <!-- Start Notification Overlay (Fades out after 3s) -->
   <div id="start-notification" class="start-notification">
     <div class="notification-content">
@@ -517,7 +522,7 @@
         <path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"></path>
         <path d="M8 21H3v-5"></path>
       </svg>
-      <span>Chơi lại</span>
+      <span>{{replay_button_text}}</span>
     </a>
   </div>
 
