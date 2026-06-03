@@ -35,8 +35,7 @@
     left: 20px;
     transform: rotate(-3deg);
     width: 90px;
-    height: auto;
-    aspect-ratio: 9 / 16;
+    height: 160px; /* Explicit height to prevent child img height collapse on mobile WebViews */
     z-index: 4; /* Below buttons (5), above frame (2) and live feed (1) */
     pointer-events: auto !important;
     cursor: pointer;
@@ -50,8 +49,12 @@
     border-radius: 12px;
     box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
     object-fit: cover;
-    display: block;
+    display: none; /* Hide by default to prevent browser grey placeholder */
     box-sizing: border-box;
+  }
+
+  .captured-preview.loaded {
+    display: block; /* Show only when loaded successfully */
   }
 
   /* Ẩn ảnh preview khi chưa chụp (mặc định là ảnh gif 1x1 trong suốt) */
@@ -361,6 +364,7 @@
       bottom: calc(16.67% + 30px) !important; /* Raised to sit above the bottom actions bar and avoid overlap */
       left: 15px !important;
       width: 70px !important;
+      height: 124px !important; /* Explicit height override for mobile */
     }
   }
 
@@ -492,7 +496,7 @@
 
 <!-- Captured Photo Preview (AR screen capture will update here) -->
 <div class="captured-preview-wrapper" onclick="openPhotoModal()">
-  <img src="{{captured_image}}" class="captured-preview" onerror="this.style.display='none';" />
+  <img src="{{captured_image}}" class="captured-preview" onload="this.classList.add('loaded');" onerror="this.classList.remove('loaded');" />
 </div>
 
 <!-- Photo Modal (Dialog lớn xem ảnh full screen) -->
