@@ -426,135 +426,11 @@
     background: rgba(239, 68, 68, 0.9);
   }
 
-  /* --- START NOTIFICATION OVERLAY --- */
-  .start-notification {
-    display: none !important; /* Hidden by default to prevent flashing on load */
-    position: fixed;
-    inset: 0;
-    z-index: 999;
-    align-items: center;
-    justify-content: center;
-    background: rgba(15, 23, 42, 0.5);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    pointer-events: auto;
-    opacity: 0;
-    visibility: hidden;
-  }
 
-  /* Only shown and animated via JS adding 'show' class */
-  .start-notification.show {
-    display: flex !important;
-    opacity: 1;
-    visibility: visible;
-    animation: fadeOutSequence 3.5s forwards;
-  }
-
-  .start-notification.fade-out {
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
-  }
-
-  @keyframes fadeOutSequence {
-    0% {
-      opacity: 1;
-      visibility: visible;
-    }
-    85% {
-      opacity: 1;
-      visibility: visible;
-    }
-    99% {
-      opacity: 0;
-      visibility: hidden;
-      pointer-events: none;
-    }
-    100% {
-      opacity: 0;
-      visibility: hidden;
-      pointer-events: none;
-      display: none !important;
-    }
-  }
-
-  .notification-content {
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.85), rgba(251, 235, 255, 0.7));
-    backdrop-filter: blur(24px);
-    -webkit-backdrop-filter: blur(24px);
-    border: 1.5px solid rgba(255, 255, 255, 0.8);
-    border-radius: 28px;
-    padding: 2.25rem 2rem;
-    width: calc(100% - 40px);
-    max-width: 320px;
-    text-align: center;
-    box-shadow: 0 24px 48px rgba(15, 23, 42, 0.25),
-                inset 0 0 20px rgba(255, 255, 255, 0.65),
-                0 0 30px -5px {{primary_color}}20;
-    animation: notificationPop 0.55s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
-    pointer-events: auto;
-  }
-
-  @keyframes notificationPop {
-    from { opacity: 0; transform: scale(0.85) translateY(10px); }
-    to { opacity: 1; transform: scale(1) translateY(0); }
-  }
-
-  .notification-emoji {
-    font-size: 2.5rem;
-    margin-bottom: 0.75rem;
-  }
-
-  .notification-title {
-    font-size: 1.45rem;
-    font-weight: 900;
-    color: #0f172a;
-    margin-bottom: 0.6rem;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-    text-shadow: 0 1px 2px rgba(255, 255, 255, 0.4);
-  }
-
-  .notification-text {
-    font-size: 1.15rem;
-    font-weight: 800;
-    color: #1e293b;
-    margin-bottom: 0.85rem;
-    line-height: 1.4;
-  }
-
-  .highlight-score {
-    color: {{primary_color}};
-    font-size: 1.5rem;
-    font-weight: 900;
-    text-shadow: 0 0 15px {{primary_color}}40;
-  }
-
-  .notification-subtext {
-    font-size: 0.95rem;
-    font-weight: 800;
-    color: #ffffff;
-    background: {{primary_color}};
-    padding: 8px 20px;
-    border-radius: 99px;
-    display: inline-block;
-    box-shadow: 0 4px 16px {{primary_color}}40;
-    letter-spacing: 0.02em;
-    text-transform: uppercase;
-  }
 </style>
 
 <div class="posmars-result-wrapper" data-has-photo="{{has_captured_image}}" data-can-replay="{{can_replay}}">
-  <!-- Start Notification Overlay (Fades out after 3s) -->
-  <div id="start-notification" class="start-notification">
-    <div class="notification-content">
-      <div class="notification-title">{{result_title_text}}</div>
-      <div class="notification-text">
-        Bạn đã tẩy trang sạch <span class="highlight-score">{{score}}%</span>
-      </div>
-      <div class="notification-subtext">Hãy chụp ảnh để flex ngay nào!</div>
-    </div>
-  </div>
+
 
   <!-- Top-left Restart Link -->
   <div class="restart-container">
@@ -644,36 +520,5 @@
     }
   }
 
-  // Dynamic control of start-notification visibility
-  document.addEventListener('DOMContentLoaded', () => {
-    const notification = document.getElementById('start-notification');
-    const wrapper = document.querySelector('.posmars-result-wrapper');
-    
-    if (notification && wrapper) {
-      const hasPhoto = wrapper.getAttribute('data-has-photo') === 'true';
-      const alreadyShown = sessionStorage.getItem('posmars_result_shown') === 'true';
 
-      if (!hasPhoto && !alreadyShown) {
-        // Show and animate the notification
-        notification.classList.add('show');
-        sessionStorage.setItem('posmars_result_shown', 'true');
-        
-        // Add fade-out class after 3 seconds
-        setTimeout(() => {
-          notification.classList.add('fade-out');
-        }, 3000);
-      } else {
-        // Forcibly remove from DOM to prevent any mobile webview flash issues
-        notification.remove();
-      }
-    }
-
-    // Reset session storage when clicking restart
-    const restartLink = document.querySelector('.restart-link');
-    if (restartLink) {
-      restartLink.addEventListener('click', () => {
-        sessionStorage.removeItem('posmars_result_shown');
-      });
-    }
-  });
 </script>
