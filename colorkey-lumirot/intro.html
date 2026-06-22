@@ -1,0 +1,296 @@
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
+
+    /* Reset cơ bản cho Safari */
+    * {
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+    }
+
+    .posmars-intro-root {
+        --primary-color: {{primary_color}};
+        --accent-color: {{accent_color}};
+        --text-color: {{text_color}};
+        position: relative;
+        width: 100%;
+        height: 100%;
+        /* Fix Safari iOS 100vh issue với dải địa chỉ động */
+        min-height: 100vh;
+        min-height: 100dvh; 
+        background: transparent;
+        color: var(--text-color);
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    /* Bổ sung fallback font mạnh mẽ để tránh bị lệch sang font Serif */
+    .posmars-intro-root * {
+        font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+    }
+
+    /* -----------------------------------------
+       FLOATING ASSETS (Đồng bộ với Lead Form)
+       ----------------------------------------- */
+    .floating-assets-layer {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 1; /* Nằm dưới cùng, sát nền */
+    }
+
+    .floating-item {
+        position: absolute;
+        filter: drop-shadow(0 12px 24px rgba(0,0,0,0.15));
+        opacity: 0.95;
+        transform-origin: center center;
+    }
+
+    /* Hiệu ứng xoay nghiêng 2 bên */
+    @keyframes floatLoopLeft {
+        0%, 100% { transform: translate(0, 0) rotate(-15deg); }
+        33% { transform: translate(4px, -12px) rotate(-11deg); }
+        66% { transform: translate(-4px, 8px) rotate(-19deg); }
+    }
+
+    @keyframes floatLoopRight {
+        0%, 100% { transform: translate(0, 0) rotate(15deg); }
+        33% { transform: translate(4px, -12px) rotate(19deg); }
+        66% { transform: translate(-4px, 8px) rotate(11deg); }
+    }
+
+    /* Đưa toàn bộ vật phẩm lên khu vực nửa trên màn hình */
+    .item-left-top { 
+        top: 2vh; left: 2%; width: clamp(60px, 16vw, 90px); 
+        animation: floatLoopLeft 7s infinite ease-in-out; 
+    }
+    .item-left-bottom { 
+        top: 18vh; left: 8%; width: clamp(55px, 14vw, 80px); 
+        animation: floatLoopLeft 6.5s infinite ease-in-out 1s; 
+    }
+    .item-right-top { 
+        top: 3vh; right: 2%; width: clamp(65px, 17vw, 95px); 
+        animation: floatLoopRight 8s infinite ease-in-out 0.9s; 
+    }
+    .item-right-bottom { 
+        top: 20vh; right: 8%; width: clamp(60px, 15vw, 85px); 
+        animation: floatLoopRight 9s infinite ease-in-out 1.1s; 
+    }
+
+    .floating-item[src=""], .floating-item[src*="{{"] { display: none !important; }
+
+    /* VÙNG CHỨA AN TOÀN TOÀN CỤC */
+    .intro-safe-area {
+        position: relative;
+        z-index: 10;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 92%; 
+        max-width: 420px;
+        padding: env(safe-area-inset-top) 0 env(safe-area-inset-bottom) 0;
+    }
+
+    /* SMART MASCOT WRAPPER */
+    .mascot-wrapper {
+        width: 85%;
+        max-width: 360px;
+        aspect-ratio: 1 / 1;
+        position: relative;
+        z-index: 20;
+        margin-bottom: -28%; 
+        pointer-events: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .mascot-element {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.15)); 
+    }
+
+    /* KHUNG NỘI DUNG CHÍNH (Tỉ lệ 1772x2272) */
+    .intro-main-card {
+        width: 100%;
+        aspect-ratio: 1772 / 2272; 
+        /* Đảm bảo hình nền phủ đầy khung thiết kế */
+        background: url('{{bg_image_url}}') center center / 100% 100% no-repeat;
+        position: relative;
+        z-index: 11;
+        border-radius: 1.5rem; 
+        box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.18);
+    }
+
+    /* CSS Fallback cho Safari cũ */
+    @supports not (aspect-ratio: 1772 / 2272) {
+        .intro-main-card::before {
+            content: "";
+            display: block;
+            padding-top: 128.21%; 
+        }
+    }
+
+    /* VÙNG GIỚI HẠN HIỂN THỊ UI (Từ 400px đến 1700px trên tổng 2272px) */
+    .ui-safe-zone {
+        position: absolute;
+        top: 17.61%; /* Tương đương 400px / 2272px */
+        bottom: 25.17%; /* Tương đương (2272px - 1700px) / 2272px */
+        left: 8%;
+        right: 8%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between; /* Đẩy text lên vùng trên, button xuống đáy vùng safe zone */
+        text-align: center;
+    }
+
+    .intro-text-content {
+        display: flex;
+        flex-direction: column;
+        justify-content: center; /* Căn giữa văn bản theo chiều dọc trong không gian của nó */
+        gap: clamp(0.5rem, 1.5vh, 1rem);
+        width: 100%;
+        flex: 1; /* Tự động chiếm toàn bộ khoảng trống phía trên nút bấm */
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        padding-bottom: 1rem;
+    }
+
+    .intro-text-content::-webkit-scrollbar { display: none; }
+    .intro-text-content { -ms-overflow-style: none; scrollbar-width: none; }
+
+    .intro-title {
+        font-size: clamp(1.2rem, 5.5vw, 1.65rem); 
+        font-weight: 800 !important;
+        color: var(--accent-color);
+        margin: 0;
+        line-height: 1.35;
+        letter-spacing: -0.02em;
+        word-break: break-word; 
+    }
+
+    .intro-description {
+        font-size: clamp(0.85rem, 4vw, 1.05rem);
+        color: var(--text-color);
+        margin: 0;
+        line-height: 1.5;
+        font-weight: 600 !important; 
+    }
+
+    /* NÚT BẮT ĐẦU */
+    .intro-start-btn {
+        width: 100%;
+        max-width: 300px; 
+        padding: clamp(1rem, 3.5vw, 1.3rem);
+        background: var(--primary-color);
+        color: white;
+        border: none;
+        border-radius: 9999px; 
+        font-size: clamp(1rem, 4vw, 1.15rem);
+        font-weight: 800 !important;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+        animation: pulseBtn 3s infinite ease-in-out;
+        position: relative;
+        overflow: hidden;
+        flex-shrink: 0;
+        margin-top: auto;
+        margin-bottom: clamp(1rem, 4vh, 2.5rem); /* Đẩy button lên cao hơn so với đáy vùng safe-zone */
+        -webkit-appearance: none; 
+    }
+
+    /* Fix click targeting issue in WebViews for nested button elements */
+    .intro-start-btn * {
+        pointer-events: none !important;
+    }
+
+    .intro-start-btn[data-loading="true"] {
+        background: #333;
+        cursor: wait;
+        pointer-events: none;
+        animation: none;
+    }
+
+    .content-ready, .content-loading {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        width: 100%;
+    }
+
+    .content-loading { display: none; }
+    .intro-start-btn[data-loading="true"] .content-ready { display: none; }
+    .intro-start-btn[data-loading="true"] .content-loading { display: flex; }
+
+    .icon-spinner { animation: spin 1s linear infinite; }
+
+    @keyframes spin { 100% { transform: rotate(360deg); } }
+    @keyframes pulseBtn {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.03); filter: brightness(1.05); }
+    }
+</style>
+
+<div class="posmars-intro-root">
+    
+    <!-- Lớp trang trí: Đã được đưa ra lớp nền, văng ra 4 góc màn hình -->
+    <div class="floating-assets-layer">
+        <img class="floating-item item-left-top" src="{{extra_asset_packshot_1}}" alt="packshot-1">
+        <img class="floating-item item-left-bottom" src="{{extra_asset_packshot_2}}" alt="packshot-2">
+        <img class="floating-item item-right-top" src="{{extra_asset_packshot_3}}" alt="packshot-3">
+        <img class="floating-item item-right-bottom" src="{{extra_asset_packshot_4}}" alt="packshot-4">
+    </div>
+
+    <div class="intro-safe-area">
+
+        <!-- Mascot Wrapper -->
+        <div class="mascot-wrapper">
+            <img class="mascot-element" src="{{extra_asset_mascot_1_1}}" alt="Mascot" onerror="this.style.display='none'">
+        </div>
+
+        <!-- Panel nội dung chính -->
+        <div class="intro-main-card">
+            
+            <!-- Vùng đặt UI Text & Button (400px -> 1700px theo % của 2272px) -->
+            <div class="ui-safe-zone">
+                <div class="intro-text-content">
+                    <h1 class="intro-title">{{title}}</h1>
+                    <p class="intro-description">{{description}}</p>
+                </div>
+                
+                <button class="intro-start-btn" data-action="start" data-loading="{{is_camera_loading}}">
+                    <span class="content-ready">
+                        <span>{{button_text}}</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                            <polyline points="12 5 19 12 12 19"></polyline>
+                        </svg>
+                    </span>
+
+                    <span class="content-loading">
+                        <svg class="icon-spinner" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 12a9 9 0 1 1-6.219-8.56"></path>
+                        </svg>
+                        <span>{{camera_loading_status}}</span>
+                    </span>
+                </button>
+            </div>
+
+        </div>
+
+    </div>
+</div>
